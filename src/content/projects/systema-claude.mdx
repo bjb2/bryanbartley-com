@@ -1,0 +1,44 @@
+---
+title: Systema Claude
+tagline: An organization system designed around the assumption that AI agents forget.
+year: 2026
+status: shipped
+stack: [Rust, Tauri, TypeScript, React, Markdown]
+tags: [tooling, agents, productivity]
+repo: https://github.com/bjb2/systema-claude
+featured: false
+order: 50
+cover: /work/systema-claude.png
+---
+
+You install systema-claude, drop your writing, projects, and a short
+voice document into the seed folders, and open the app. Any AI agent
+session you start in that workspace orients to who you are in under a
+minute. Your active projects, your principles, the way you actually
+talk. When that session ends and a new one starts cold, it gets the
+same orientation.
+
+The audience is anyone who works with Claude, Codex, or Copilot day
+to day and is tired of explaining themselves at the start of every
+session.
+
+## Why this works
+
+Continuity lives in the architecture, not in any agent's memory.
+Flat markdown files with structured frontmatter are the substrate.
+A Rust daemon (orgd) handles indexing, file-watching, and the HTTP
+and IPC routes the viewer talks to. The Tauri shell renders the
+documents, edits them, and shows the graph of how they connect.
+
+An agent reading CLAUDE.md plus three short context documents is
+oriented to your work before its first response. Without that
+scaffolding it either guesses or starts from a corporate-default
+tone neither of you wants.
+
+## What's in v0.1.0
+
+The orgd daemon (26 tests pass), the Tauri shell (renamed and
+stripped to a clean baseline), a bundled seed with a welcome
+interview task and a format-contract example routine, frontmatter
+validation harness, and example agent configs for Claude and Codex.
+MSI and NSIS installers on the GitHub release.

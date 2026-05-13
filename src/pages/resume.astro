@@ -1,0 +1,203 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+type Role = {
+  title: string;
+  company: string;
+  location: string;
+  dates: string;
+  blurb?: string;
+  sections?: { label: string; bullets: string[] }[];
+  bullets?: string[];
+};
+
+const roles: Role[] = [
+  {
+    title: 'AI & Growth Consultant',
+    company: 'Five Whys LLC',
+    location: 'Remote',
+    dates: 'Dec 2025 — Present',
+    blurb: 'Building bespoke solutions and growth functions at early-stage businesses.',
+    bullets: [
+      'Custom AI tooling and workflows',
+      '0 → 1 paid media setups for B2C SaaS',
+      'Developing new analytics products for public oversight (tallyhq.org)',
+    ],
+  },
+  {
+    title: 'Director of Business Operations',
+    company: 'vidIQ',
+    location: 'Remote',
+    dates: 'Apr 2022 — Nov 2025',
+    blurb: 'A platform that helps creators grow their audience faster on YouTube.',
+    sections: [
+      {
+        label: 'Product & Growth',
+        bullets: [
+          'Rebuilt payments infrastructure (50%+ conversion rate increase, 50% ↓ complaints)',
+          'Launched AI-powered landing pages (30% signup lift) and led GTM for GPT-based AI Coach (100K+ users)',
+          'Prototyped outlier video discovery product → became core platform feature',
+        ],
+      },
+      {
+        label: 'Team & Marketing',
+        bullets: [
+          'Grew Marketing & Growth team 9 → 18 while achieving record low CAC',
+          'Built video content team that doubled YouTube watch time',
+          'Restructured creator partnership program (10x expansion)',
+        ],
+      },
+      {
+        label: 'Operations & Analytics',
+        bullets: [
+          'Led analytics and forecasting for Finance, Marketing, and Product',
+          'Managed B2B/Enterprise development (API platform, chat-integrated MCP)',
+          'Implemented AI cost tracking and abuse detection',
+          'Executed key migrations (ESP, dunning system) and implemented Apache Superset for reporting and dashboards',
+        ],
+      },
+    ],
+  },
+  {
+    title: 'Director of Product',
+    company: 'WayUp',
+    location: 'Remote',
+    dates: 'Jul 2021 — Apr 2022',
+    blurb: 'A platform to virtually recruit qualified, diverse early-career candidates.',
+    bullets: [
+      'Managed Product Operations, Product Management, and Data teams',
+      'Defined post-merger integration plan for B2B SaaS products',
+      'Increased job application volume by 30% through funnel improvements',
+    ],
+  },
+  {
+    title: 'Product Operations Manager',
+    company: 'Indeed',
+    location: 'Austin, TX',
+    dates: 'May 2019 — Jul 2021',
+    blurb: 'The #1 job site in the world.',
+    bullets: [
+      'Developed and maintained Python/SQL reporting solutions for Client Success, Sales, Product, and Program Management',
+      'Managed a team of 3 analysts running 10–15 projects concurrently',
+    ],
+  },
+  {
+    title: 'Sr. IT Security Governance Analyst',
+    company: 'The Home Depot',
+    location: 'Austin, TX',
+    dates: 'Nov 2018 — May 2019',
+    blurb: "The world's largest home improvement retailer.",
+    bullets: [
+      'Supported the security risk management process for a portfolio of IT systems',
+      'Developed analytics dashboards and reports in Tableau',
+    ],
+  },
+  {
+    title: 'IT Compliance Analyst',
+    company: 'Indeed',
+    location: 'Austin, TX',
+    dates: 'Dec 2017 — Nov 2018',
+    blurb: 'The #1 job site in the world.',
+    bullets: [
+      'Designed and implemented access, change management, and GDPR reviews',
+      'Developed license management practices that reduced annual expenses by $100k per year',
+    ],
+  },
+  {
+    title: 'IT Audit & Compliance Consultant',
+    company: 'Freelance',
+    location: 'San Antonio, TX',
+    dates: 'Sep 2017 — Dec 2017',
+    bullets: [
+      'IT SOX Logical Access and Change Management Testing',
+      'Excel and Google Sheets automation for 50+ clients',
+    ],
+  },
+  {
+    title: 'IT Auditor',
+    company: 'Ernst & Young',
+    location: 'San Antonio, TX',
+    dates: 'Jul 2016 — Aug 2017',
+    blurb: 'A "Big 4" accounting and consulting firm.',
+    bullets: [
+      'ITGC and application control testing for SOX compliance',
+      'Created VBA macros for automated budget analysis across 8+ client engagements',
+    ],
+  },
+];
+---
+<BaseLayout title="Resume — Bryan Bartley" description="Bryan Bartley — engineer, consultant, and operator. Career history and credentials.">
+  <header class="mb-12 pb-6 border-b border-rule flex items-end justify-between gap-4 flex-wrap">
+    <div>
+      <h1 class="text-3xl font-medium mb-1">Resume</h1>
+      <p class="text-muted">San Antonio, TX · bryan@fivewhys.org</p>
+    </div>
+    <a href="/bryan-bartley-resume.pdf" class="font-mono text-xs uppercase tracking-wider text-ink hover:text-accent border border-rule px-3 py-2">
+      Download PDF →
+    </a>
+  </header>
+
+  <section class="mb-12">
+    <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-3">The pitch</h2>
+    <p class="text-lg leading-relaxed">
+      I build data systems, AI tooling, and operator software end-to-end — usually for small teams that need to ship like bigger ones.
+    </p>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-6">Experience</h2>
+    <ol class="space-y-10">
+      {roles.map((r) => (
+        <li>
+          <div class="flex items-baseline justify-between gap-4 flex-wrap mb-1">
+            <div>
+              <span class="font-medium">{r.title}</span>
+              <span class="text-muted"> · {r.company}</span>
+              <span class="text-muted"> · {r.location}</span>
+            </div>
+            <span class="font-mono text-xs text-muted whitespace-nowrap">{r.dates}</span>
+          </div>
+          {r.blurb && <p class="text-muted text-sm italic mb-3">{r.blurb}</p>}
+          {r.bullets && (
+            <ul class="list-disc pl-5 space-y-1 text-[0.95rem] leading-relaxed">
+              {r.bullets.map((b) => <li>{b}</li>)}
+            </ul>
+          )}
+          {r.sections && (
+            <div class="space-y-4 mt-2">
+              {r.sections.map((s) => (
+                <div>
+                  <div class="font-mono text-xs uppercase tracking-wider text-muted mb-1">{s.label}</div>
+                  <ul class="list-disc pl-5 space-y-1 text-[0.95rem] leading-relaxed">
+                    {s.bullets.map((b) => <li>{b}</li>)}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-3">Education</h2>
+    <ul class="space-y-2">
+      <li>
+        <span class="font-medium">MBA</span>
+        <span class="text-muted"> · Western Governors University · Class of 2021</span>
+      </li>
+      <li>
+        <span class="font-medium">BBA, Management Science</span>
+        <span class="text-muted"> · University of Texas at San Antonio · Class of 2016</span>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-3">Certifications</h2>
+    <p class="text-muted leading-relaxed">
+      CAPM · Professional Scrum Master I · Associate of ISC² (CISSP test passed) · Certified Information Systems Auditor (test passed)
+    </p>
+  </section>
+</BaseLayout>

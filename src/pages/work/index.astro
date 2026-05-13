@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects'))
+  .sort((a, b) => (b.data.year - a.data.year) || (a.data.order - b.data.order));
+---
+<BaseLayout title="Work — Bryan Bartley">
+  <h1 class="text-3xl font-medium mb-2">Work</h1>
+  <p class="text-muted mb-12">Live products, shipped projects, and active builds.</p>
+
+  <ul class="space-y-10">
+    {projects.map((p) => (
+      <li>
+        <a href={`/work/${p.id}`} class="group block">
+          <div class="flex items-baseline justify-between gap-4 mb-1">
+            <h2 class="text-lg font-medium group-hover:text-accent">{p.data.title}</h2>
+            <span class="font-mono text-xs text-muted">{p.data.year} · {p.data.status}</span>
+          </div>
+          <p class="text-muted">{p.data.tagline}</p>
+          {p.data.stack.length > 0 && (
+            <div class="mt-2 flex flex-wrap gap-2">
+              {p.data.stack.map((s) => (
+                <span class="font-mono text-xs text-muted">{s}</span>
+              ))}
+            </div>
+          )}
+        </a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

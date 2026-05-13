@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const testimonials = [
+  {
+    quote: "Bryan is incredible to work with. I don't know anyone that had more skills or the ability to roll their own sleeves up to get stuff done! Highly recommended.",
+    name: 'Spencer Little',
+    company: 'Deluxe Garages',
+  },
+  {
+    quote: "I had an urgent CRM project, and Bryan was instrumental in helping me select the right tools for the job. His expertise and guidance made a significant difference, and I was thrilled to have the project delivered a week early! I couldn't have asked for better support.",
+    name: 'Chad Kramer',
+    company: 'GrayStone Insurance',
+  },
+];
+---
+<BaseLayout
+  title="Five Whys — AI and growth consulting for early-stage teams"
+  description="AI tooling, data infrastructure, paid media, and operator software for founders and small operating teams."
+  brand="fw"
+>
+  <section class="mb-16">
+    <p class="font-mono text-xs uppercase tracking-wider text-muted mb-3">Five Whys</p>
+    <h1 class="text-3xl font-medium leading-tight mb-5">
+      AI tooling and growth infrastructure for early-stage teams.
+    </h1>
+    <p class="text-lg leading-relaxed text-muted">
+      I help founders and small operating teams ship the AI features,
+      data products, and growth systems that move the business. Previously
+      Director of Business Operations at vidIQ, where I led GTM for the
+      GPT-based AI Coach (100K+ users) and rebuilt the payments stack
+      (50%+ conversion lift). I also ship public products solo —
+      <a href="/work" class="underline decoration-rule hover:decoration-accent">tallyhq.org, boon.gifts, and others</a>.
+    </p>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a href="https://tidycal.com/bbartley/30-minute-meeting" class="inline-block px-4 py-2 bg-ink text-paper text-sm no-underline">
+        Book a 30-min call →
+      </a>
+      <a href="mailto:bryan@fivewhys.org" class="inline-block px-4 py-2 border border-rule text-sm no-underline">
+        bryan@fivewhys.org
+      </a>
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-6">Things I build with you</h2>
+    <div class="space-y-8">
+      <div>
+        <h3 class="font-medium mb-2">AI features that ship in production. Not demos.</h3>
+        <p class="text-muted leading-relaxed">
+          Real LLM-powered functionality wired into your product, your billing,
+          and your support. I've shipped this at vidIQ (100K-user AI Coach,
+          chat-integrated MCP), on tallyhq (auto-generated bill summaries for
+          passed legislation), and at Boon (a frontier-model gift card stood up
+          end-to-end in a day).
+        </p>
+      </div>
+      <div>
+        <h3 class="font-medium mb-2">Data infrastructure your team will actually use.</h3>
+        <p class="text-muted leading-relaxed">
+          Pipelines, warehouses, and dashboards built around the questions the
+          operating team actually asks. I led analytics and forecasting across
+          Finance, Marketing, and Product at vidIQ, implemented Apache Superset
+          there, and built the variant-performance attribution stack behind
+          meta-mirror.
+        </p>
+      </div>
+      <div>
+        <h3 class="font-medium mb-2">Paid media systems, zero to one.</h3>
+        <p class="text-muted leading-relaxed">
+          B2C SaaS paid acquisition from cold-start to systematized growth,
+          with attribution that survives the post-iOS-14 measurement era.
+          Currently running multi-market Meta + Google campaigns for a venue-
+          curation business across NYC, the Bay Area, and Ann Arbor.
+        </p>
+      </div>
+      <div>
+        <h3 class="font-medium mb-2">The operator software that holds it together.</h3>
+        <p class="text-muted leading-relaxed">
+          CRM cleanups, workflow automation, custom internal tools, the
+          migrations nobody is excited to lead. The work that determines
+          whether the operation actually runs at scale.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-6">Engagement tiers</h2>
+    <div class="grid sm:grid-cols-3 gap-4">
+      <div class="border border-rule p-5">
+        <div class="font-medium mb-1">Sprint</div>
+        <div class="font-mono text-sm text-muted mb-3">$3K / month</div>
+        <p class="text-sm text-muted leading-relaxed">
+          One focused workstream. Ship an AI feature, stand up a paid media
+          channel, or build the data pipeline you've been putting off. One
+          outcome at the end of the month.
+        </p>
+      </div>
+      <div class="border border-rule p-5">
+        <div class="font-medium mb-1">Accelerator</div>
+        <div class="font-mono text-sm text-muted mb-3">$6K / month</div>
+        <p class="text-sm text-muted leading-relaxed">
+          Multi-workstream. Usually a build plus a growth lever wired
+          together — an AI feature plus the acquisition system that backs it,
+          or the data layer plus the analytics that turn it into decisions.
+        </p>
+      </div>
+      <div class="border border-rule p-5">
+        <div class="font-medium mb-1">Embedded</div>
+        <div class="font-mono text-sm text-muted mb-3">$9K / month</div>
+        <p class="text-sm text-muted leading-relaxed">
+          Fractional CTO or head-of-ops for as long as it's useful. Strategy,
+          hiring, and the work nobody else on your team has the time or shape
+          for.
+        </p>
+      </div>
+    </div>
+    <p class="text-xs text-muted mt-4">
+      Month-to-month. Plans change, pause, or end any time. Invoicing on request.
+    </p>
+  </section>
+
+  <section class="mb-16">
+    <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-6">Past clients</h2>
+    <div class="space-y-8">
+      {testimonials.map((t) => (
+        <blockquote class="border-l-2 border-rule pl-5">
+          <p class="italic leading-relaxed text-[0.95rem]">"{t.quote}"</p>
+          <footer class="mt-2 text-sm text-muted">
+            — {t.name}, {t.company}
+          </footer>
+        </blockquote>
+      ))}
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-4">Start with a 30-min call</h2>
+    <p class="leading-relaxed text-muted mb-6">
+      No deck, no pitch, no obligation. We talk about what you're trying to ship
+      and whether I'm useful for it. If the fit isn't there, I'll usually be able
+      to point you to someone who is.
+    </p>
+    <div class="flex flex-wrap gap-3">
+      <a href="https://tidycal.com/bbartley/30-minute-meeting" class="inline-block px-4 py-2 bg-ink text-paper text-sm no-underline">
+        Book a 30-min call →
+      </a>
+      <a href="mailto:bryan@fivewhys.org" class="inline-block px-4 py-2 border border-rule text-sm no-underline">
+        bryan@fivewhys.org
+      </a>
+    </div>
+  </section>
+</BaseLayout>

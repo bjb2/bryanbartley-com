@@ -1,0 +1,44 @@
+---
+title: TallyHQ
+tagline: A way to see what your representatives are actually doing in Congress.
+year: 2026
+status: live
+stack: [FastAPI, DuckDB, Railway, govinfo.gov, congress.gov, LDA, FEC]
+tags: [civic-data, public-records, fastapi]
+url: https://tallyhq.org
+repo: https://github.com/bjb2/tallyhq
+featured: true
+order: 10
+cover: /work/tallyhq.png
+---
+
+You search a representative's name. The profile shows how many votes
+they cast this year, how many they missed, how often they broke with
+their party. A heatmap shows when they're actually showing up. Scroll
+down for the bills they're sponsoring or moving, click into one, and
+you see the action timeline next to a strip of who lobbied for or
+against it and how much money flowed.
+
+The audience is the politically-engaged citizen and the civic-curious
+journalist who wanted to know what's happening but didn't want to learn
+the federal websites.
+
+## What's behind it
+
+452,000 events stitched together from primary government sources:
+15,500 bills, 134,000 lobbying filings, 31,000 floor speeches, 42,000
+roll-call votes, 1,100 campaign-finance rows tied to bill activity.
+Daily incremental updates from govinfo BILLSTATUS bulk, clerk.house.gov,
+senate.gov, congress.gov, the LDA database, the FEC, and the
+unitedstates/congress-legislators YAML registry.
+
+Read-time validation on lobbying mentions filters around 44% of stale
+boilerplate. Lobbyists routinely keep copying old bill numbers across
+Congresses, and naive matching credits them with influence they no
+longer have.
+
+## Stack
+
+FastAPI worker plus DuckDB on a Railway Hobby plan. Daily cron runs an
+asyncio subprocess scheduler at 07:00 UTC. OG share previews, sitemap,
+autocomplete search. Open-source under MIT.

@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects'))
+  .filter((p) => p.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout title="Bryan Bartley — engineer, consultant, builder">
+  <section class="mb-16">
+    <h1 class="text-3xl font-medium leading-tight mb-4">
+      I build data systems, AI tooling, and operator software.
+    </h1>
+    <p class="text-muted text-lg leading-relaxed">
+      I live in San Antonio. Most days I'm shipping one of a few public products —
+      <a href="https://tallyhq.org" class="underline decoration-rule hover:decoration-accent">tallyhq.org</a>,
+      <a href="https://boon.gifts" class="underline decoration-rule hover:decoration-accent">boon.gifts</a>,
+      <a href="https://delectable.guide" class="underline decoration-rule hover:decoration-accent">delectable.guide</a>,
+      <a href="https://bjb2.github.io/markets-academy" class="underline decoration-rule hover:decoration-accent">markets-academy</a> —
+      or doing consulting work through
+      <a href="/consulting" class="underline decoration-rule hover:decoration-accent">Five Whys</a>.
+    </p>
+  </section>
+
+  <section class="mb-16">
+    <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-6">Selected work</h2>
+    <ul class="space-y-6">
+      {projects.map((p) => (
+        <li>
+          <a href={`/work/${p.id}`} class="group block">
+            <div class="flex items-baseline justify-between gap-4">
+              <span class="font-medium group-hover:text-accent">{p.data.title}</span>
+              <span class="font-mono text-xs text-muted">{p.data.year}</span>
+            </div>
+            <p class="text-muted text-sm mt-1">{p.data.tagline}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <a href="/work" class="inline-block mt-8 text-sm hover:text-accent">All projects →</a>
+  </section>
+
+  <section>
+    <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-4">Hire me</h2>
+    <p class="text-muted leading-relaxed">
+      I take on a small number of consulting engagements per year through
+      <a href="/consulting" class="underline decoration-rule hover:decoration-accent">Five Whys</a>.
+      Most are AI integration, data infrastructure, or operator-tool builds.
+    </p>
+  </section>
+</BaseLayout>

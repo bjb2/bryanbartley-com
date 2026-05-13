@@ -1,0 +1,40 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const pieces = await getCollection('writing', ({ data }) => !data.draft);
+  return pieces.map((p) => ({ params: { slug: p.id }, props: { piece: p } }));
+}
+
+const { piece } = Astro.props;
+const { Content } = await render(piece);
+const fmt = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+---
+<BaseLayout title={`${piece.data.title} — Bryan Bartley`} description={piece.data.excerpt}>
+  <a href="/writing" class="text-sm text-muted hover:text-accent">← writing</a>
+  <header class="mt-6 mb-10 pb-6 border-b border-rule">
+    <h1 class="text-3xl font-medium mb-2 leading-tight">{piece.data.title}</h1>
+    <p class="font-mono text-xs text-muted">
+      {fmt.format(piece.data.date)}
+      {piece.data.category && <span> · {piece.data.category}</span>}
+    </p>
+  </header>
+  <article class="prose-bb">
+    <Content />
+  </article>
+</BaseLayout>
+
+<style>
+  .prose-bb :global(h2) { font-size: 1.25rem; font-weight: 500; margin-top: 2rem; margin-bottom: 0.75rem; }
+  .prose-bb :global(h3) { font-size: 1.05rem; font-weight: 500; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+  .prose-bb :global(p) { margin-bottom: 1rem; line-height: 1.75; }
+  .prose-bb :global(ul) { margin-bottom: 1rem; padding-left: 1.25rem; list-style: disc; }
+  .prose-bb :global(li) { margin-bottom: 0.25rem; line-height: 1.75; }
+  .prose-bb :global(a) { text-decoration: underline; text-decoration-color: var(--color-rule); }
+  .prose-bb :global(a:hover) { text-decoration-color: var(--color-accent); }
+  .prose-bb :global(code) { font-family: var(--font-mono); font-size: 0.9em; }
+  .prose-bb :global(blockquote) { border-left: 2px solid var(--color-rule); padding-left: 1.25rem; margin-left: 0; font-style: italic; color: var(--color-muted); margin-bottom: 1rem; }
+  .prose-bb :global(em) { font-style: italic; }
+  .prose-bb :global(strong) { font-weight: 600; }
+</style>

@@ -1,0 +1,45 @@
+---
+title: Boon
+tagline: A frontier-model AI account, the way you'd give someone a coffee. Built in a day.
+year: 2026
+status: live
+stack: [FastAPI, Postgres, Stripe, Resend, OpenRouter, Docker]
+tags: [ai, payments, two-sided]
+url: https://boon.gifts
+featured: true
+order: 20
+cover: /work/boon.png
+---
+
+You buy a $20, $50, or $250 card. The recipient gets an email with a
+code, redeems it at boon.gifts, taps through an OTP, and starts asking
+GPT-5, Claude, Gemini, or whoever else they want questions about their
+kid's homework, the next product idea, or the weird rash on their arm.
+No subscription. No account. No relationship to maintain. When the
+balance hits zero, the card's done.
+
+The audience is everyone in your life, but in particular the people who
+would never go set up their own ChatGPT or Claude account on their own.
+
+## Build
+
+Built in one day, including learning Stripe, Resend, and OpenRouter
+from scratch. Stripe went into live mode the same evening, and the full
+path — purchase, webhook, email delivery, redemption, OTP, runtime key
+issue, inference — runs against real cards.
+
+The interesting engineering wasn't the SDKs, which are all
+well-documented. It was the trust architecture: how do you make a
+transferable claim on metered third-party API spend without the
+purchaser, the recipient, or the platform getting burned?
+
+The answer was a vendor-provisioning API as ledger. Each card is a row
+with a provider-side capability key, gated behind a recipient-bound
+OTP. The site never holds long-lived model credentials in the browser,
+and the recipient spends without ever creating an account.
+
+## Stack
+
+FastAPI and Postgres in Docker on Railway. Resend for email, with DKIM
+and SPF verified. Stripe in live mode. OpenRouter for the model layer.
+Domain on Cloudflare.

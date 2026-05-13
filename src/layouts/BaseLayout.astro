@@ -1,0 +1,74 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  brand?: 'bb' | 'fw';
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = 'Bryan Bartley builds data systems, AI tooling, and operator software end-to-end.',
+  brand = 'bb',
+  ogImage = '/og-default.png',
+} = Astro.props;
+const isFiveWhys = brand === 'fw';
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://bryanbartley.com').toString();
+const absoluteOgImage = new URL(ogImage, Astro.site ?? 'https://bryanbartley.com').toString();
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:site_name" content={isFiveWhys ? 'Five Whys' : 'Bryan Bartley'} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteOgImage} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="border-b border-rule">
+      <div class="max-w-3xl mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="/" class="font-mono text-sm tracking-tight text-ink no-underline">
+          {isFiveWhys ? 'five whys' : 'bryan bartley'}
+        </a>
+        <nav class="flex gap-6 text-sm">
+          <a href="/work" class="text-ink hover:text-accent no-underline">work</a>
+          <a href="/play" class="text-ink hover:text-accent no-underline">play</a>
+          <a href="/writing" class="text-ink hover:text-accent no-underline">writing</a>
+          <a href="/consulting" class="text-ink hover:text-accent no-underline">consulting</a>
+          <a href="/resume" class="text-ink hover:text-accent no-underline">resume</a>
+        </nav>
+      </div>
+    </header>
+    <main class="flex-1 max-w-3xl mx-auto px-6 py-12 w-full">
+      <slot />
+    </main>
+    <footer class="border-t border-rule mt-16">
+      <div class="max-w-3xl mx-auto px-6 py-6 flex items-center justify-between text-sm text-muted">
+        <span>© {new Date().getFullYear()} Bryan Bartley</span>
+        <span class="flex gap-4">
+          <a href="https://linkedin.com/in/bryanbartley" class="text-muted hover:text-accent no-underline">linkedin</a>
+          <a href="https://github.com/bjb2" class="text-muted hover:text-accent no-underline">github</a>
+        </span>
+      </div>
+    </footer>
+  </body>
+</html>

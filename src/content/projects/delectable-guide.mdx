@@ -1,0 +1,37 @@
+---
+title: Delectable Guide
+tagline: A serious guide to where to eat, curated by craft, not by aggregate rating.
+year: 2025
+status: live
+stack: [HTML, Leaflet, Supabase, Vercel, Google Places]
+tags: [maps, curation, food]
+url: https://delectable.guide
+featured: true
+order: 30
+cover: /work/delectable-guide.png
+---
+
+You open the map. Pins cluster around award winners across the country.
+Click one and you get the restaurant, its awards, what to know going in.
+Filter by James Beard year, Michelin tier, or cuisine. Save to a list.
+Plan a trip around it.
+
+The audience is people who eat out seriously. Travelers planning where
+to spend an anniversary dinner. The friend everyone asks "where should
+I eat in Houston?" The category is over-served by Yelp aggregate
+ratings and under-served by anything actually opinionated.
+
+## Why it works the way it does
+
+A restaurant earns a slot only if a domain expert in that cuisine
+praises it. Awards from James Beard, Michelin, regional critics, the
+World's 50 Best. Not "popular" places, not "trending" places. The
+guide trades the long tail of decent restaurants for a short list
+worth crossing a city for.
+
+## Stack
+
+Static JSON pre-built offline; no runtime API calls for the map data.
+The whole thing loads without any third-party service running, and the
+build is reproducible from primary place IDs. Hosted on Vercel,
+Supabase behind the editorial back-end.

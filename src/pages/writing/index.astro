@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const fmt = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+const pieces = (await getCollection('writing', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const grouped = pieces.reduce((acc, p) => {
+  const year = p.data.date.getFullYear();
+  (acc[year] ??= []).push(p);
+  return acc;
+}, {} as Record<number, typeof pieces>);
+
+const years = Object.keys(grouped).map(Number).sort((a, b) => b - a);
+---
+<BaseLayout title="Writing — Bryan Bartley">
+  <h1 class="text-3xl font-medium mb-2">Writing</h1>
+  <p class="text-muted mb-12">Essays, poems, songs, and notes.</p>
+
+  {pieces.length === 0 ? (
+    <p class="text-muted">Nothing posted yet.</p>
+  ) : (
+    <div class="space-y-12">
+      {years.map((year) => (
+        <section>
+          <h2 class="font-mono text-xs uppercase tracking-wider text-muted mb-4">{year}</h2>
+          <ul class="space-y-5">
+            {grouped[year].map((p) => (
+              <li>
+                <a href={`/writing/${p.id}`} class="group block">
+                  <div class="flex items-baseline justify-between gap-4">
+                    <span class="font-medium group-hover:text-accent">{p.data.title}</span>
+                    <span class="font-mono text-xs text-muted whitespace-nowrap">{fmt.format(p.data.date)}</span>
+                  </div>
+                  {p.data.excerpt && (
+                    <p class="text-muted text-sm mt-1 leading-relaxed">{p.data.excerpt}</p>
+                  )}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  )}
+</BaseLayout>

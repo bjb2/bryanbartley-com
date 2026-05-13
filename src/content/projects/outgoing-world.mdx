@@ -1,0 +1,43 @@
+---
+title: Outgoing.world (consulting case study)
+tagline: Multi-market growth engagement — paid media, organic social, partnership outreach, and a custom video creative engine.
+year: 2026
+status: live
+stack: [Meta Ads, Google Ads, Remotion, ffmpeg, Pexels, Gemini 3 Pro, DuckDB]
+tags: [growth, paid-media, video, creative-production]
+featured: false
+order: 60
+---
+
+Outgoing is a curated local-events newsletter operating across NYC,
+the Bay Area, and Ann Arbor. The engagement covers paid acquisition
+on Meta and Google, organic social production, partnership outreach,
+and the creative engine that produces all of it.
+
+## What got built
+
+A Remotion-based programmatic video pipeline (`outgoing-creative-engine`)
+that produces vertical and square ad creative on demand. Captions are
+hand-curated from faster-whisper word-level transcripts; motion design
+follows a distilled rulebook of seven hard rules and eight archetype
+templates pulled from a deep research pass on what's actually working
+on Meta in 2026.
+
+A second pipeline (`meta-mirror`) is a single-tenant Python and DuckDB
+data layer over Meta's Marketing API. It surfaces per-variant
+performance and pixel-health signals that Ads Manager buries. That's
+the difference between catching a tracking blackout in twelve hours
+versus three weeks.
+
+When stock libraries couldn't honor a brief (NYC venue specificity
+in editorial flat-lay photography), the creative pipeline added AI
+image generation through Gemini 3 Pro with real venue names baked
+into the prompt.
+
+## Why it matters as a portfolio piece
+
+Most growth marketing is hearsay. Treating it as a data
+infrastructure problem — capture primary data, validate attribution
+at the source, catch pixel failures the same day — consistently
+outperforms playbook execution. That's the unlock the engagement is
+built around.

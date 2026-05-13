@@ -1,0 +1,52 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((p) => ({ params: { slug: p.id }, props: { project: p } }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+<BaseLayout title={`${project.data.title} — Bryan Bartley`} description={project.data.tagline}>
+  <a href="/work" class="text-sm text-muted hover:text-accent">← work</a>
+  {project.data.cover && (
+    <div class="mt-6 mb-8 border border-rule overflow-hidden">
+      <img src={project.data.cover} alt={project.data.title} class="w-full h-auto block" />
+    </div>
+  )}
+  <header class="mb-10 pb-6 border-b border-rule">
+    <div class="flex items-baseline justify-between gap-4 mb-2">
+      <h1 class="text-3xl font-medium">{project.data.title}</h1>
+      <span class="font-mono text-xs text-muted">{project.data.year} · {project.data.status}</span>
+    </div>
+    <p class="text-muted text-lg">{project.data.tagline}</p>
+    <div class="mt-4 flex flex-wrap gap-3 text-sm">
+      {project.data.url && <a href={project.data.url} class="underline decoration-rule hover:decoration-accent">live →</a>}
+      {project.data.repo && <a href={project.data.repo} class="underline decoration-rule hover:decoration-accent">repo →</a>}
+    </div>
+    {project.data.stack.length > 0 && (
+      <div class="mt-4 flex flex-wrap gap-2">
+        {project.data.stack.map((s) => (
+          <span class="font-mono text-xs text-muted">{s}</span>
+        ))}
+      </div>
+    )}
+  </header>
+  <article class="prose-bb">
+    <Content />
+  </article>
+</BaseLayout>
+
+<style>
+  .prose-bb :global(h2) { font-size: 1.25rem; font-weight: 500; margin-top: 2rem; margin-bottom: 0.75rem; }
+  .prose-bb :global(h3) { font-size: 1.05rem; font-weight: 500; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+  .prose-bb :global(p) { margin-bottom: 1rem; line-height: 1.7; }
+  .prose-bb :global(ul) { margin-bottom: 1rem; padding-left: 1.25rem; list-style: disc; }
+  .prose-bb :global(li) { margin-bottom: 0.25rem; line-height: 1.7; }
+  .prose-bb :global(a) { text-decoration: underline; text-decoration-color: var(--color-rule); }
+  .prose-bb :global(a:hover) { text-decoration-color: var(--color-accent); }
+  .prose-bb :global(code) { font-family: var(--font-mono); font-size: 0.9em; }
+</style>
