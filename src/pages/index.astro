@@ -6,7 +6,7 @@ const projects = (await getCollection('projects'))
   .filter((p) => p.data.featured)
   .sort((a, b) => a.data.order - b.data.order);
 ---
-<BaseLayout title="Bryan Bartley — engineer, consultant, builder">
+<BaseLayout title="Bryan Bartley — independent builder and consultant">
   <section class="mb-16">
     <h1 class="text-3xl font-medium leading-tight mb-4">
       I build data systems, AI tooling, and operator software.
