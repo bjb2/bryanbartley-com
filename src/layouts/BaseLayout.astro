@@ -45,11 +45,11 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? 'https://bryanbartley.com
   </head>
   <body class="min-h-screen flex flex-col">
     <header class="border-b border-rule">
-      <div class="max-w-3xl mx-auto px-6 py-5 flex items-center justify-between">
+      <div class="max-w-3xl mx-auto px-6 py-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
         <a href="/" class="font-mono text-sm tracking-tight text-ink no-underline">
           {isFiveWhys ? 'five whys' : 'bryan bartley'}
         </a>
-        <nav class="flex gap-6 text-sm">
+        <nav class="flex flex-wrap gap-x-5 gap-y-2 text-sm">
           <a href="/work" class="text-ink hover:text-accent no-underline">work</a>
           <a href="/play" class="text-ink hover:text-accent no-underline">play</a>
           <a href="/writing" class="text-ink hover:text-accent no-underline">writing</a>
@@ -62,7 +62,7 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? 'https://bryanbartley.com
       <slot />
     </main>
     <footer class="border-t border-rule mt-16">
-      <div class="max-w-3xl mx-auto px-6 py-6 flex items-center justify-between text-sm text-muted">
+      <div class="max-w-3xl mx-auto px-6 py-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-sm text-muted">
         <span>© {new Date().getFullYear()} Bryan Bartley</span>
         <span class="flex gap-4">
           <a href="https://linkedin.com/in/bryanbartley" class="text-muted hover:text-accent no-underline">linkedin</a>
