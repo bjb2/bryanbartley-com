@@ -1,0 +1,68 @@
+---
+title: omp-deck
+tagline: A self-hosted web cockpit for the omp coding agent — multi-session chat, kanban, scheduled routines, inbox, knowledge base, and a Telegram bridge in a single Bun process.
+year: 2026
+status: shipped
+stack: [Bun, Hono, TypeScript, React, SQLite, WebSocket, React Flow]
+tags: [agents, tooling, productivity]
+repo: https://github.com/bjb2/omp-deck
+featured: false
+order: 45
+cover: /work/omp-deck.png
+---
+
+You open the app. Multi-session sidebar on the left, an active chat in
+the middle, an inspector on the right. The agent runs and every tool
+call streams into a typed renderer — file reads, file edits, bash, web
+search, sub-agent tasks, browser automation, image generation. Hit
+`/task add` and a new card lands on the kanban; the same card
+refreshes in every other open tab because the server broadcasts the
+change. Schedule a routine to fire every weekday morning. From your
+phone, DM the Telegram bridge and the agent answers there.
+
+The audience is anyone driving an omp coding agent (or planning to)
+who wants a calmer surface for long sessions than a terminal — plus
+the workflow scaffolding around it: a kanban for what the agent is
+doing, an inbox for what you want to do next, a knowledge base over
+your local notes the agent can read as it works.
+
+## The shape it takes
+
+omp-deck doesn't reimplement the agent. It embeds the same omp SDK
+in-process and shares its OAuth / API-key store with the terminal CLI.
+That means the chat surface stays at parity with the TUI by
+construction. The two are the same agent in different form factors
+and you can run both.
+
+The rest of the deck is the cockpit that wraps it. A Bun and Hono
+server with REST control planes for tasks, routines, inbox, settings,
+marketplace, bridges, knowledge base, and skills. A single WebSocket
+hub fans out session events and `*_changed` broadcasts. A Vite and
+React frontend consumes that stream — no client-side polling.
+
+## What v0.2 ships
+
+Multi-session chat with per-tool renderers, hashline diffs, thinking
+blocks, cost rollups, image paste / drop / attach. A kanban with `T-N`
+display IDs, drag-and-drop, configurable columns, live broadcasts.
+Cron routines authored either as YAML or in a visual React Flow
+canvas that renders the pipeline as a graph, lifts inferred edges
+into explicit ones the first time you author one, and round-trips
+through spec edits without losing layout. A knowledge base over
+`~/kb` with a markdown viewer, wikilink resolution, in-pane editor,
+full-text search, and an Obsidian-style force-directed graph view. An
+omp-native skills catalog across every provider the SDK loads. A
+maintenance-gate SDK extension bundled with the deck that nudges the
+agent at turn-end to file insights into the canonical org folders.
+Three themes (paper, slate, horizon) with FOUC-free pre-paint. A
+Telegram bridge supervised by the deck so the agent is reachable from
+the couch.
+
+## Hosting
+
+A single Bun process, loopback-only by default. The intended
+deployment is Tailscale Serve or an SSH tunnel — the deck itself
+ships without an auth layer because anything stronger than "loopback
+plus your network's edge" was outside the scope of the build. MIT
+licensed, designed to be cloned and run from your own machine
+alongside an omp CLI you already use.
