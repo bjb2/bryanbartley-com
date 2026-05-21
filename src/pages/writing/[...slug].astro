@@ -11,7 +11,7 @@ const { piece } = Astro.props;
 const { Content } = await render(piece);
 const fmt = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 ---
-<BaseLayout title={`${piece.data.title} — Bryan Bartley`} description={piece.data.excerpt}>
+<BaseLayout title={`${piece.data.title} · Bryan Bartley`} description={piece.data.excerpt}>
   <a href="/writing" class="text-sm text-muted hover:text-accent">← writing</a>
   <header class="mt-6 mb-10 pb-6 border-b border-rule">
     <h1 class="text-3xl font-medium mb-2 leading-tight">{piece.data.title}</h1>

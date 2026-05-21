@@ -6,17 +6,17 @@ const projects = (await getCollection('projects'))
   .filter((p) => p.data.featured)
   .sort((a, b) => a.data.order - b.data.order);
 ---
-<BaseLayout title="Bryan Bartley — independent builder and consultant">
+<BaseLayout title="Bryan Bartley · independent builder and consultant">
   <section class="mb-16">
     <h1 class="text-3xl font-medium leading-tight mb-4">
       I build data systems, AI tooling, and operator software.
     </h1>
     <p class="text-muted text-lg leading-relaxed">
-      I live in San Antonio. Most days I'm shipping one of a few public products —
-      <a href="https://tallyhq.org" class="underline decoration-rule hover:decoration-accent">tallyhq.org</a>,
+      I live in San Antonio. Most days I'm shipping one of a few public products
+      (<a href="https://tallyhq.org" class="underline decoration-rule hover:decoration-accent">tallyhq.org</a>,
       <a href="https://boon.gifts" class="underline decoration-rule hover:decoration-accent">boon.gifts</a>,
       <a href="https://delectable.guide" class="underline decoration-rule hover:decoration-accent">delectable.guide</a>,
-      <a href="https://bjb2.github.io/markets-academy" class="underline decoration-rule hover:decoration-accent">markets-academy</a> —
+      <a href="https://github.com/bjb2/omp-deck" class="underline decoration-rule hover:decoration-accent">omp-deck</a>),
       or doing consulting work through
       <a href="/consulting" class="underline decoration-rule hover:decoration-accent">Five Whys</a>.
     </p>

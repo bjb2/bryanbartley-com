@@ -1,6 +1,6 @@
 ---
 title: omp-deck
-tagline: A self-hosted web cockpit for the omp coding agent — multi-session chat, kanban, scheduled routines, inbox, knowledge base, and a Telegram bridge in a single Bun process.
+tagline: "A self-hosted web cockpit for the omp coding agent: multi-session chat, kanban, scheduled routines, inbox, knowledge base, and a Telegram bridge in a single Bun process."
 year: 2026
 status: shipped
 stack: [Bun, Hono, TypeScript, React, SQLite, WebSocket, React Flow]
@@ -13,7 +13,7 @@ cover: /work/omp-deck.png
 
 You open the app. Multi-session sidebar on the left, an active chat in
 the middle, an inspector on the right. The agent runs and every tool
-call streams into a typed renderer — file reads, file edits, bash, web
+call streams into a typed renderer: file reads, file edits, bash, web
 search, sub-agent tasks, browser automation, image generation. Hit
 `/task add` and a new card lands on the kanban; the same card
 refreshes in every other open tab because the server broadcasts the
@@ -21,7 +21,7 @@ change. Schedule a routine to fire every weekday morning. From your
 phone, DM the Telegram bridge and the agent answers there.
 
 The audience is anyone driving an omp coding agent (or planning to)
-who wants a calmer surface for long sessions than a terminal — plus
+who wants a calmer surface for long sessions than a terminal, plus
 the workflow scaffolding around it: a kanban for what the agent is
 doing, an inbox for what you want to do next, a knowledge base over
 your local notes the agent can read as it works.
@@ -38,7 +38,7 @@ The rest of the deck is the cockpit that wraps it. A Bun and Hono
 server with REST control planes for tasks, routines, inbox, settings,
 marketplace, bridges, knowledge base, and skills. A single WebSocket
 hub fans out session events and `*_changed` broadcasts. A Vite and
-React frontend consumes that stream — no client-side polling.
+React frontend consumes that stream. No client-side polling.
 
 ## What v0.2 ships
 
@@ -61,7 +61,7 @@ the couch.
 ## Hosting
 
 A single Bun process, loopback-only by default. The intended
-deployment is Tailscale Serve or an SSH tunnel — the deck itself
+deployment is Tailscale Serve or an SSH tunnel. The deck itself
 ships without an auth layer because anything stronger than "loopback
 plus your network's edge" was outside the scope of the build. MIT
 licensed, designed to be cloned and run from your own machine
