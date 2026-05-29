@@ -1,6 +1,6 @@
 ---
 title: omp-deck
-tagline: "A self-hosted web cockpit for the omp coding agent: multi-session chat, kanban, scheduled routines, inbox, knowledge base, and a Telegram bridge in a single Bun process."
+tagline: A calmer place to drive your coding agent, plus the work that lives around the chat.
 year: 2026
 status: shipped
 stack: [Bun, Hono, TypeScript, React, SQLite, WebSocket, React Flow]
@@ -11,58 +11,85 @@ order: 5
 cover: /work/omp-deck.png
 ---
 
-You open the app. Multi-session sidebar on the left, an active chat in
-the middle, an inspector on the right. The agent runs and every tool
-call streams into a typed renderer: file reads, file edits, bash, web
-search, sub-agent tasks, browser automation, image generation. Hit
-`/task add` and a new card lands on the kanban; the same card
-refreshes in every other open tab because the server broadcasts the
-change. Schedule a routine to fire every weekday morning. From your
-phone, DM the Telegram bridge and the agent answers there.
+You open the app. Sessions on the left, an active chat in the middle,
+an inspector on the right. Every tool call streams into a typed
+renderer: file reads, edits, bash, web search, sub-agents, browser
+automation, image generation. Hit Shift+Tab and the session flips into
+plan mode. The agent investigates with read-only tools, drafts a plan,
+surfaces it inline for your approval, then executes with full tools
+restored once you say go. Type `/task add` and a card lands on the
+kanban; the same card refreshes in every open tab because the server
+broadcasts the change. Schedule a routine for weekday mornings, or
+build one on a visual node canvas if YAML isn't your thing. DM the
+Telegram bridge from your phone and the agent answers there.
 
-The audience is anyone driving an omp coding agent (or planning to)
-who wants a calmer surface for long sessions than a terminal, plus
-the workflow scaffolding around it: a kanban for what the agent is
-doing, an inbox for what you want to do next, a knowledge base over
-your local notes the agent can read as it works.
+The audience is anyone driving an omp coding agent who wants a calmer
+surface than a terminal for long sessions, plus the workflow
+scaffolding around it. A kanban for what the agent is doing. An inbox
+for what you want next. A knowledge base over your local markdown the
+agent can read as it works. A plan-mode loop so the agent can propose
+before it executes.
 
-## The shape it takes
+## How it stays honest
 
 omp-deck doesn't reimplement the agent. It embeds the same omp SDK
-in-process and shares its OAuth / API-key store with the terminal CLI.
-That means the chat surface stays at parity with the TUI by
-construction. The two are the same agent in different form factors
-and you can run both.
+in-process and shares the OAuth and API-key store with the terminal
+CLI. The chat surface stays at TUI parity by construction. You can
+run both side by side and the agent doesn't know the difference.
 
-The rest of the deck is the cockpit that wraps it. A Bun and Hono
-server with REST control planes for tasks, routines, inbox, settings,
-marketplace, bridges, knowledge base, and skills. A single WebSocket
-hub fans out session events and `*_changed` broadcasts. A Vite and
-React frontend consumes that stream. No client-side polling.
+Plan mode, todo-panel live-sync, queued-prompt editing, and `kb://`
+resolution from inside agent sessions are all built on top of the
+same SDK surfaces the TUI uses, never a parallel reimplementation.
+When the SDK ships something new, the deck picks it up rather than
+forking.
 
-## What v0.2 ships
+A Bun and Hono server holds the REST and WebSocket layer; a Vite and
+React frontend consumes the stream. No client-side polling. The whole
+thing is one process that cold-starts in under a second.
 
-Multi-session chat with per-tool renderers, hashline diffs, thinking
-blocks, cost rollups, image paste / drop / attach. A kanban with `T-N`
-display IDs, drag-and-drop, configurable columns, live broadcasts.
-Cron routines authored either as YAML or in a visual React Flow
-canvas that renders the pipeline as a graph, lifts inferred edges
-into explicit ones the first time you author one, and round-trips
-through spec edits without losing layout. A knowledge base over
-`~/kb` with a markdown viewer, wikilink resolution, in-pane editor,
-full-text search, and an Obsidian-style force-directed graph view. An
-omp-native skills catalog across every provider the SDK loads. A
-maintenance-gate SDK extension bundled with the deck that nudges the
-agent at turn-end to file insights into the canonical org folders.
-Three themes (paper, slate, horizon) with FOUC-free pre-paint. A
-Telegram bridge supervised by the deck so the agent is reachable from
-the couch.
+## What's in it
+
+The chat is the centerpiece: multi-session, per-tool renderers,
+hashline diffs, thinking blocks, cost rollups, paste-and-drop images,
+queued prompts you can edit or cancel mid-stream, composer history
+recall per workspace, and Shift+Tab plan mode with inline Approve /
+Reject / Edit cards.
+
+The kanban has stable `T-N` IDs, drag-and-drop, configurable columns,
+live broadcasts, and image paste straight into task bodies. The inbox
+sits alongside it for quick capture and promote-to-task. Routines
+author as YAML or in a visual React Flow canvas that round-trips
+through spec edits without losing layout; each run is observable
+step-by-step, with stdout, JSON output, cost, and replay surfaced
+inline.
+
+The knowledge base sits over `~/kb` with a markdown viewer, wikilink
+resolution, full-text search, and an Obsidian-style force-directed
+graph. `kb://` URLs from agent sessions resolve through the same root,
+so the agent can read your notes by reference without copy-paste. An
+omp-native skills catalog spans every provider the SDK loads; five
+starter skills (handoff, diagnose, zoom-out, prototype, grill-me)
+auto-install on first boot.
+
+A reliability stack runs underneath: heartbeat frames, a
+restart-on-crash supervisor, a connection indicator in the header, and
+a notification service that surfaces routine failures and
+agent-shipped tasks as OS notifications. A bundled maintenance-gate
+extension nudges the agent to file insights into your org folders at
+turn end. An orientation panel makes the session prelude, `/start`
+command, and gate behavior editable from the UI without touching
+server source. Three themes (paper, slate, horizon), FOUC-free. A
+Telegram bridge supervised by the deck so the agent stays reachable
+from the couch.
 
 ## Hosting
 
-A single Bun process, loopback-only by default. The intended
-deployment is Tailscale Serve or an SSH tunnel. The deck itself
-ships without an auth layer because anything stronger than "loopback
-plus your network's edge" was outside the scope of the build. MIT
-licensed, designed to be cloned and run from your own machine
-alongside an omp CLI you already use.
+A single Bun process, loopback-only by default. The intended deployment
+is Tailscale Serve or an SSH tunnel. The deck ships without an auth
+layer because anything stronger than "loopback plus your network's
+edge" was outside the scope of the build. Cross-platform CI runs the
+full gate matrix on Linux, macOS, and Windows on every push; the
+Dockerfile (Debian-slim, glibc) boots end-to-end on Linux, and bash /
+cmd launchers ship for all three OSes. MIT licensed, designed to be
+cloned and run from your own machine alongside an omp CLI you already
+use.
