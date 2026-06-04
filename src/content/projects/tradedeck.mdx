@@ -1,0 +1,87 @@
+---
+title: Tradedeck
+tagline: A terminal-style operator surface for backtesting strategies and forward-running a personal equities sleeve.
+year: 2026
+status: building
+stack: [Bun, Hono, TypeScript, React, Vite, SQLite, Python, Alpaca, Yahoo Finance]
+tags: [trading, backtesting, operator-tools, data-systems]
+featured: true
+order: 15
+cover: /work/tradedeck.png
+---
+
+You open the lab. A run loads in the center: equity curve against SPY,
+calmar / martin / ulcer / sharpe in a metrics strip, exit reasons broken
+out by count. The right rail is four hundred-plus backtests sorted by
+whichever durability metric you trust today. Type a spec name in the
+filter and the list narrows in place. Click any row to make it the new
+center; ctrl-click a second row and the two curves overlay normalised at
+start. Switch to the sweep tab, pick a knob, vary it across N values,
+and a sensitivity rack pins below the chart with the deltas. Switch to
+monte carlo and bootstrap a thousand paths off the trade log to see what
+the strategy actually distributes to versus the single realised path you
+happen to be holding.
+
+The audience is the operator running their own money against the S&P 500
+core, who needs the research surface and the forward-deployment surface
+in the same UI, and who has stopped trusting sharpe.
+
+## Why it works the way it does
+
+Tradedeck is the operator UI on top of an existing Python research
+pipeline. Python owns the data, the backtester, and the order-generation
+logic. SQLite is the contract between them. The web layer reads the DB
+WAL-safely and never mutates outside an explicit approval-RPC, so the
+pipeline still runs from cron without the deck noticing.
+
+The lab is split into a workspace per concern — daily, studio, sweep,
+blueprint, trades, drawdowns, calendar, entries, universe, config, monte
+carlo, orders. Each tab is a distinct view over the same loaded run.
+That keeps the daily forward-deployment workflow (what do I enter into
+Fidelity in the next hour) from competing for screen real-estate with
+research workflows (how does this knob change drawdown over twenty-seven
+years).
+
+The aesthetic is Bloomberg terminal on purpose: pitch ink canvas,
+phosphor green for gains, crimson for losses, terminal amber for the
+principal voice, JetBrains Mono everywhere data lives, zero rounded
+corners. P&L colors are reserved exclusively for P&L. Slot colors on
+the equity chart are amber for slot A, info cyan for the compare overlay,
+sterile slate for SPY benchmark — never red or green, so the
+"is this winning" question is never confused with the "which line is
+which" question.
+
+## What's in it
+
+A backtest engine that has logged four hundred-plus runs across
+twenty-two selectors and forty-three universes (US large/mid, Russell
+2000, international developed and emerging ex-China, sector tilts, a
+global multi-asset Faber rotation). Composite blueprints that stack
+components with target weights, regenerate as a single equity curve, and
+surface per-leg attribution.
+
+A daily tab that takes today's bar data plus the current shadow ledger,
+diffs the target portfolio against what you actually hold, and emits a
+manual order list formatted for Fidelity ATP — trail-stop OTOs with the
+spec's calibrated trail percent baked in. Every order ships with the
+exact trail percent the strategy was backtested with; the broker
+override is locked out at the wizard layer so live can't silently drift
+off sim.
+
+Monte carlo via block bootstrap of historical daily returns at the trade
+level. Calendar heatmap of monthly returns versus benchmark since 1999.
+Drawdown microscope with peak-to-trough timelines. Trade diff view that
+attributes each closed position to entry signal, exit reason, holding
+period, and contribution to total return.
+
+## Honest reads
+
+The deck is single-tenant on purpose. It runs on loopback, reads one
+project's SQLite directly, and never asks for credentials because there
+is no shared layer it could authenticate against. The intended
+deployment is the same machine the research pipeline runs on.
+
+The whole point is iteration discipline: define a thesis, name a
+prediction, then run the test. The favorites pane is the only durable
+history. Runs that aren't starred get pruned. The wins that stick are
+the ones with thesis text written before the calmar was computed.
