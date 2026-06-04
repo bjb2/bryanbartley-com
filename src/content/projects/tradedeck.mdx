@@ -1,44 +1,44 @@
 ---
 title: Tradedeck
-tagline: A terminal-style operator surface for backtesting strategies and forward-running a personal equities sleeve.
+tagline: A research lab for testing investment theses against decades of market history, and deploying the ones that survive.
 year: 2026
 status: building
 stack: [Bun, Hono, TypeScript, React, Vite, SQLite, Python, Alpaca, Yahoo Finance]
-tags: [trading, backtesting, operator-tools, data-systems]
+tags: [trading, backtesting, research-tools, data-systems]
 featured: true
 order: 15
 cover: /work/tradedeck.png
 ---
 
-You open the lab. A backtest loads in the center: equity curve against
-SPY, durability metrics in a strip, exit reasons broken out. The right
-rail is the run history sorted by whichever metric you trust today.
-Click a row to load it; ctrl-click a second to overlay the two curves
-normalised at start. The daily tab takes today's bar data and emits a
-manual order list formatted for Fidelity ATP, trail-stops calibrated to
-the backtest.
+You open the lab. A strategy backtest loads in the center: equity curve
+against the S&P, durability metrics in a strip, exit reasons broken out
+by count. The right rail is every backtest you've ever saved, sorted by
+whichever metric you trust today. Click one to load it; ctrl-click a
+second to overlay them normalised at start. When something holds up
+across decades, the daily tab generates today's manual order list
+formatted for the broker you actually trade through.
 
-The audience is the operator running their own money alongside an S&P 500
-core, who wants the research surface and the live-deployment surface in
-the same UI.
+The audience is the self-directed investor who wants to test investment
+theses against real market history before betting on them, and who has
+stopped trusting any single number.
 
 ## How it stays honest
 
-Tradedeck is a UI layer over an existing Python research pipeline.
-Python owns the data, the backtester, and the order logic; SQLite is the
-contract between them. The deck reads WAL-safely and only writes through
-an explicit approval RPC, so the pipeline keeps running from cron and
-the operator surface stays out of its way.
+Tradedeck sits over a Python research pipeline that owns the data and
+the backtester. SQLite is the seam between them, so the pipeline keeps
+running unattended and the UI never gets in its way. The deck is the
+place you actually use: define a thesis, run the backtest, compare it
+against the ones you've already run, decide.
 
-The trail percent each position ships with is whatever the strategy was
-backtested with. The wizard locks the override out so the live sleeve
-can't silently drift off the simulation.
+Live positions ship with the exact trail stop the strategy was
+backtested with. The wizard locks the broker override out, so what runs
+in real money can't silently drift away from what survived the
+simulation.
 
 ## Aesthetic
 
 Bloomberg terminal on purpose. Pitch ink canvas, phosphor green for
 gains, crimson for losses, terminal amber as the principal voice,
 JetBrains Mono everywhere data lives, zero rounded corners. P&L colors
-are reserved for P&L; equity-chart slot colors are amber, info cyan, and
-sterile slate, so "is this winning" never gets confused with "which line
-is which".
+are reserved for P&L; equity-chart lines are amber, cyan, and slate, so
+"is this winning" is never confused with "which line is which".
