@@ -1,0 +1,64 @@
+---
+title: Reskill Academy
+tagline: A self-study curriculum for reskilling through the AI job transition, from an honest read of what is changing to a written 12-month plan.
+year: 2026
+status: live
+stack: [Vite, React, TypeScript, Tailwind, MDX, "O*NET"]
+tags: [education, ai-careers, reskilling, mdx, local-first]
+url: https://bjb2.github.io/reskill-academy/
+repo: https://github.com/bjb2/reskill-academy
+featured: true
+order: 25
+cover: /work/reskill-academy.png
+---
+
+You land on a question instead of a sales pitch: where do you actually
+fit as AI moves through the economy? Eight mastery-gated layers take you
+from reasoning structurally about automation, through a task-level audit
+of your own job, to a dated 12-month plan with kill criteria and a review
+cadence. Layers unlock at 80% mastery of the previous one, because moving
+on at 60% understanding compounds into being permanently behind on every
+later prerequisite.
+
+The audience is the mid-career professional who feels the ground shifting
+and wants a method, not motivational noise. People who would rather audit
+their own exposure task by task than doom-scroll capability headlines.
+
+## The method
+
+Structural reasoning over forecasts. Work gets scored on four axes,
+structure, embodiment, accountability, and stakes, drawn from the
+labor-economics literature: Autor, Acemoglu and Restrepo, Eloundou's
+task-level exposure study, Ericsson on deliberate practice, and Dunlosky
+on which study techniques actually work. Every lesson follows an
+evidence-based template: a cold retrieval prompt, a concrete instance, an
+interactive widget, the abstraction, a worked example, and a
+retrieval-framed recap. Free primary sources throughout, each link
+verified at authoring time.
+
+## Pathways
+
+A Pathways explorer pulls real occupations and their task lists from the
+U.S. Department of Labor's O\*NET database, bundled at build time under a
+CC BY 4.0 license, and runs each occupation through the same four-axis
+durability read the curriculum teaches. You can import an occupation's
+actual tasks straight into your exposure map and start the audit from real
+data instead of a blank page.
+
+## The learning engine
+
+Forty-two lessons across eight layers, with four exercise kinds including
+forced primary-source reading. Completed exercises feed an SM-2
+spaced-repetition queue. The four artifacts the curriculum produces, an
+exposure map, a candidate shortlist, a 12-month plan, and an annual
+re-audit, live in a structured workbook with markdown export. Progress and
+workbook both persist in the browser; nothing leaves the device, and a
+one-file backup guards against a cleared cache.
+
+## Stack
+
+Vite, React, TypeScript, Tailwind, MDX. Content is a graph of MDX lessons
+plus JSON exercise packs, gated by a content linter that checks the
+manifest, exercise validity, and source links. The O\*NET occupation data
+is ingested by a build-time script. Open-source under MIT, deployed to
+GitHub Pages.
