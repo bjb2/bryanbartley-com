@@ -1,0 +1,71 @@
+---
+title: SpiritValers
+tagline: A community wiki and build simulator for the game SpiritVale, built on data that traces to the export or says, honestly, when it doesn't.
+year: 2026
+status: live
+stack: [HTML, "Vanilla JS", WebGL, Supabase, "Cloudflare Workers", "GitHub Pages"]
+tags: [gaming, wiki, build-tools, data-systems]
+url: https://spiritvalers.com
+featured: true
+order: 1
+cover: /work/spiritvalers.png
+---
+
+You open the codex and every monster, item, map, skill, and status effect
+in the game is there, each with the drop tables and stats to back it. Click
+a piece of gear and you see which monsters drop it, at what rate, and which
+public builds actually run it. Open the build simulator and you theorycraft a
+character end to end: allocate stats, equip and refine gear, socket cards and
+substats, pick skills, and rotate a live 3D preview of the result. Then the
+Farm Plan tells you where to grind for every piece you're missing, routed by
+the time it actually costs you rather than the drop rate the wiki quotes.
+
+The audience is the SpiritVale player who wants to plan a build before
+sinking a week of grinding into it, and who is tired of drop-rate tables that
+don't tell you the thing that matters: how long the grind will actually take.
+The category is served by scattered spreadsheets and half-stale wiki pages;
+this replaces both with one fast, honest surface.
+
+## Honest by construction
+
+Every number on the site traces to the game's Unity export or a named
+community source. When a source doesn't exist, the UI says so out loud
+("no known source", "unknown location") instead of inventing a plausible
+figure. That rule is enforced, not aspirational: a generator turns the raw
+export into the committed data, and a verification gate checks roughly
+fifteen invariants before anything ships. Drop tables must resolve to real
+items, map pools to real monsters, artifact pieces to real sources. A check
+that fails is treated as a user-facing bug, never something to weaken until
+it passes. The site would rather show a gap than lie to a player.
+
+## The Farm Plan picks by time, not by rate
+
+The interesting model underneath the simulator is the farm planner. A 10%
+drop from a boss that respawns once an hour is worse than a 1% drop from a
+mob you can kill every few seconds, and the plan knows it. It costs mob kills
+and boss attempts in seconds, sums the real wait for everything a build still
+needs, and routes you accordingly. Refine costs are modeled the same way the
+game charges them, down to the failure-and-downgrade cascades, so the plan
+reflects what the grind will actually take rather than a best-case fantasy.
+
+## The layer that makes it social
+
+On top of the static wiki sits a thin backend for the parts that need one:
+save and share a build by link, like and comment on other people's, plan a
+whole guild's rosters and see the aggregate demand across the team, watch
+view counts tick on the pages people actually visit. Builds serialize whole,
+so a shared link and a cloud save are the same object. The interface speaks
+eleven languages, with the Chinese localization built from a community
+glossary rather than a machine pass.
+
+## Stack
+
+Deliberately boring where it can afford to be. No framework, no bundler, no
+npm at runtime; each page is a single HTML file with inline CSS and JS, and
+the game data is committed JSON generated offline from the export. One shared
+stylesheet owns every color and font token, so a palette or theme change is a
+single edit that flips dark and light across the whole site. The social layer
+is Supabase, share-card previews and a live-streamer feed are Cloudflare
+Workers, and the whole thing is hosted on GitHub Pages behind a deploy script
+that pushes, watches the build, and re-pokes it until the commit is genuinely
+live.
