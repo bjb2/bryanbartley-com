@@ -1,43 +1,59 @@
 ---
 title: Outgoing.world (consulting case study)
-tagline: "Multi-market growth engagement: paid media, organic social, partnership outreach, and a custom video creative engine."
+tagline: Paid acquisition for a local-discovery startup, built from zero and held to a target cost per signup while the product kept pivoting.
 year: 2026
 status: live
-stack: [Meta Ads, Google Ads, Remotion, ffmpeg, Pexels, Gemini 3 Pro, DuckDB]
-tags: [growth, paid-media, video, creative-production]
-featured: false
-order: 60
+stack: [Meta Ads, Google Ads, Python, DuckDB, Remotion, ffmpeg, Gemini 3 Pro]
+tags: [growth, paid-media, personas, data-systems]
+featured: true
+order: 2
 ---
 
-Outgoing is a curated local-events newsletter operating across NYC,
-the Bay Area, and Ann Arbor. The engagement covers paid acquisition
-on Meta and Google, organic social production, partnership outreach,
-and the creative engine that produces all of it.
+I run paid acquisition for Outgoing, a startup building an AI agent that finds
+and books real-world things to do. I took over an empty ad account with one
+number to hit: keep the cost of a good signup under target while daily volume
+climbs from around ten toward a hundred. Everything downstream reports to that
+number.
 
-## What got built
+## Finding the personas
 
-A Remotion-based programmatic video pipeline (`outgoing-creative-engine`)
-that produces vertical and square ad creative on demand. Captions are
-hand-curated from faster-whisper word-level transcripts; motion design
-follows a distilled rulebook of seven hard rules and eight archetype
-templates pulled from a deep research pass on what's actually working
-on Meta in 2026.
+The audience wasn't handed to me. The starting read was a 35-to-55 crowd that
+wants to get out more, the opposite of the what's-happening-tonight impulse
+buyer. Later I went through the conversations people were starting with the
+product itself, and two sharper personas fell out: someone planning a date
+night, and someone planning a family weekend. Each became its own campaign with
+its own creative, and I let the ad self-select the right person rather than
+stacking interest targets that Meta reads as low quality.
 
-A second pipeline (`meta-mirror`) is a single-tenant Python and DuckDB
-data layer over Meta's Marketing API. It surfaces per-variant
-performance and pixel-health signals that Ads Manager buries. That's
-the difference between catching a tracking blackout in twelve hours
-versus three weeks.
+## Moving with the pivots
 
-When stock libraries couldn't honor a brief (NYC venue specificity
-in editorial flat-lay photography), the creative pipeline added AI
-image generation through Gemini 3 Pro with real venue names baked
-into the prompt.
+The target keeps moving, and keeping up with it is most of the job. The
+conversion event changed from an email signup to a live chat with the product,
+so every campaign got rebuilt around click-to-message and every hook rewritten
+to invite a text. The map went from a few launch cities to the major US metros.
+Positioning the company decided against, like price and accessibility angles,
+had to come back out of creative that was already running. Every one of those
+changes resets Meta's learning phase, so the craft is holding efficiency steady
+while the ground moves under it.
 
-## Why it matters as a portfolio piece
+## Meta and Google
 
-Most growth marketing is hearsay. Treating it as a data
-infrastructure problem (capture primary data, validate attribution
-at the source, catch pixel failures the same day) consistently
-outperforms playbook execution. That's the unlock the engagement is
-built around.
+Meta carries the account. The winning identity creative hit the target cost per
+signup, and I hold it there through each re-learning window. Google Search I ran,
+diagnosed, and rebuilt: the expensive "events this weekend" searches were the
+wrong intent and got cut, while the cheaper discovery-framed searches like "cool
+experiences near me" got the budget. When Google still couldn't reach a
+competitive cost per signup for a free product, I paused it and moved the spend
+to where it converts.
+
+## Treating it as data, not folklore
+
+Most growth advice is folklore. What beats it is refusing to trust the
+dashboard. I capture the primary numbers myself and verify attribution at the
+source, which turns a tracking failure into a same-day catch instead of a
+three-week mystery. That paid off directly the week a site change silently
+killed the tracking pixel for two and a half days: platform numbers cratered
+while raw signups held flat, so I could call it an attribution illusion and talk
+the client out of a panicked budget cut. The custom data layer over Meta's API
+and the programmatic video pipeline both exist to serve that habit, surfacing
+the per-variant signal the ad managers bury.
