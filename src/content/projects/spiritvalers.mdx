@@ -3,7 +3,7 @@ title: SpiritValers
 tagline: A community wiki and build simulator for the game SpiritVale, with every number traced back to the game's own files.
 year: 2026
 status: live
-stack: [HTML, "Vanilla JS", WebGL, Supabase, "Cloudflare Workers", "GitHub Pages"]
+stack: [HTML, "Vanilla JS", WebGL, "Cloudflare Workers", "Cloudflare D1", "Cloudflare R2", "GitHub Pages", Node]
 tags: [gaming, wiki, build-tools, data-systems]
 url: https://spiritvalers.com
 featured: true
@@ -62,11 +62,17 @@ climb a damage board.
 
 ## Stack
 
-The stack stays deliberately thin. There's no framework and no bundler. Every
-page is one HTML file with its CSS and JS inline, and the game data ships as
-committed JSON, generated offline from the export. A single shared stylesheet
-holds every color and font token, so recoloring the whole site is one edit that
-flips both dark and light. Supabase backs the social features. Cloudflare
-Workers render the share-card previews and the streamer feed. The site sits on
-GitHub Pages behind a deploy script that pushes, watches the build, and pokes it
-again until the commit goes live.
+The site itself stays deliberately thin. There's no framework and no bundler;
+every page is one HTML file with its CSS and JS inline, and the game data ships
+as committed JSON that a separate Node generator compiles offline from the Unity
+export. A single shared stylesheet holds every color and font token, so
+recoloring the whole site is one edit that flips both dark and light.
+
+The backend runs entirely on Cloudflare, moved off Supabase in a live cutover
+that kept every password hash intact. D1 stores the builds, view and like
+counts, guild rosters, and comments behind same-origin API shims, with its own
+auth and R2 for user emblems. Cloudflare Workers render the share-card previews
+and the Twitch streamer feed, and Cloudflare fronts the whole site as a CDN with
+cache rules on the data files. GitHub Pages hosts the static build through a
+GitHub Actions pipeline, and a deploy script runs the invariant gate, pushes,
+and purges the edge cache once the build lands.
