@@ -1,6 +1,6 @@
 ---
 title: SpiritValers
-tagline: A community wiki and build simulator for the game SpiritVale, built on data that traces to the export or says, honestly, when it doesn't.
+tagline: A community wiki and build simulator for the game SpiritVale, with every number traced back to the game's own files.
 year: 2026
 status: live
 stack: [HTML, "Vanilla JS", WebGL, Supabase, "Cloudflare Workers", "GitHub Pages"]
@@ -11,61 +11,62 @@ order: 1
 cover: /work/spiritvalers.png
 ---
 
-You open the codex and every monster, item, map, skill, and status effect
-in the game is there, each with the drop tables and stats to back it. Click
-a piece of gear and you see which monsters drop it, at what rate, and which
-public builds actually run it. Open the build simulator and you theorycraft a
-character end to end: allocate stats, equip and refine gear, socket cards and
-substats, pick skills, and rotate a live 3D preview of the result. Then the
-Farm Plan tells you where to grind for every piece you're missing, routed by
-the time it actually costs you rather than the drop rate the wiki quotes.
+The codex holds every monster, item, map, skill, and status effect in the game,
+each one carrying its own drop tables and stats. Click a piece of gear and it
+shows you the monsters that drop it, the rate they drop it at, and the public
+builds running it. The simulator goes further: allocate stats, equip and refine
+gear, socket cards and substats, pick your skills, and spin a 3D preview of the
+character while you work. When you finish, the Farm Plan routes you to whatever
+you're still short on and sorts the targets by how long each grind takes.
 
-The audience is the SpiritVale player who wants to plan a build before
-sinking a week of grinding into it, and who is tired of drop-rate tables that
-don't tell you the thing that matters: how long the grind will actually take.
-The category is served by scattered spreadsheets and half-stale wiki pages;
-this replaces both with one fast, honest surface.
+It's built for the player who wants to plan a build before pouring a week into
+the grind, and who has given up on drop-rate tables. Those tables never answer
+the question everyone is actually asking: how long is this going to take?
 
-## Honest by construction
+## How it stays honest
 
-Every number on the site traces to the game's Unity export or a named
-community source. When a source doesn't exist, the UI says so out loud
-("no known source", "unknown location") instead of inventing a plausible
-figure. That rule is enforced, not aspirational: a generator turns the raw
-export into the committed data, and a verification gate checks roughly
-fifteen invariants before anything ships. Drop tables must resolve to real
-items, map pools to real monsters, artifact pieces to real sources. A check
-that fails is treated as a user-facing bug, never something to weaken until
-it passes. The site would rather show a gap than lie to a player.
+Every number traces to the game's Unity export or a named community source.
+Where nothing backs a value, the UI prints "no known source" or "unknown
+location" and leaves the gap showing. A generator compiles the raw export into
+committed data, then a verification gate runs about fifteen invariants before
+each deploy. A drop table pointing at an item that doesn't exist fails the gate.
+So does a map pool with a phantom monster, or an artifact piece with no listed
+source. When a check fails, the deploy stops until the data is fixed.
 
-## The Farm Plan picks by time, not by rate
+## The Farm Plan
 
-The interesting model underneath the simulator is the farm planner. A 10%
-drop from a boss that respawns once an hour is worse than a 1% drop from a
-mob you can kill every few seconds, and the plan knows it. It costs mob kills
-and boss attempts in seconds, sums the real wait for everything a build still
-needs, and routes you accordingly. Refine costs are modeled the same way the
-game charges them, down to the failure-and-downgrade cascades, so the plan
-reflects what the grind will actually take rather than a best-case fantasy.
+The planner is the part I'm proudest of. A 10% drop from a boss that respawns
+once an hour is worse than a 1% drop from a mob you can kill every few seconds,
+and the plan knows it. It prices each mob kill and boss attempt in seconds, adds
+up the wait for everything a build still needs, and routes you accordingly.
+Refine costs follow the same rule, cascading failures and downgrades included,
+so the hours it quotes land close to the hours you spend.
 
-## The layer that makes it social
+## The social layer
 
-On top of the static wiki sits a thin backend for the parts that need one:
-save and share a build by link, like and comment on other people's, plan a
-whole guild's rosters and see the aggregate demand across the team, watch
-view counts tick on the pages people actually visit. Builds serialize whole,
-so a shared link and a cloud save are the same object. The interface speaks
-eleven languages, with the Chinese localization built from a community
-glossary rather than a machine pass.
+A thin backend carries whatever needs server state. Save a build and share it by
+link. Like and comment on other people's. Run a guild, where everyone's farming
+demand pools into one view with a shared bank and squad splits. There's a
+player-run auction house too: gear sells for coins, listed with its rolled
+substats, a proof screenshot, and an open trade record. Pages keep their own
+view counts. Builds serialize whole, so a shared link and a cloud save are the
+same object. The UI ships in seventeen languages, and the Chinese was built by
+hand from a community glossary.
+
+## The arcade side
+
+Two side modes run on the same data. Spirit Clash is a quick wave-survival
+battler drawn from the game's own classes, skills, and monsters. Training
+Grounds drops you onto a class against practice dummies, where you level up and
+climb a damage board.
 
 ## Stack
 
-Deliberately boring where it can afford to be. No framework, no bundler, no
-npm at runtime; each page is a single HTML file with inline CSS and JS, and
-the game data is committed JSON generated offline from the export. One shared
-stylesheet owns every color and font token, so a palette or theme change is a
-single edit that flips dark and light across the whole site. The social layer
-is Supabase, share-card previews and a live-streamer feed are Cloudflare
-Workers, and the whole thing is hosted on GitHub Pages behind a deploy script
-that pushes, watches the build, and re-pokes it until the commit is genuinely
-live.
+The stack stays deliberately thin. There's no framework and no bundler. Every
+page is one HTML file with its CSS and JS inline, and the game data ships as
+committed JSON, generated offline from the export. A single shared stylesheet
+holds every color and font token, so recoloring the whole site is one edit that
+flips both dark and light. Supabase backs the social features. Cloudflare
+Workers render the share-card previews and the streamer feed. The site sits on
+GitHub Pages behind a deploy script that pushes, watches the build, and pokes it
+again until the commit goes live.
