@@ -38,6 +38,29 @@ const { Content } = await render(project);
   <article class="prose-bb">
     <Content />
   </article>
+  {project.data.gallery.length > 0 && (
+    <section class="mt-14">
+      <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-6">Gallery</h2>
+      <div class="space-y-10">
+        {project.data.gallery.map((g) => (
+          <figure>
+            <div class="border border-rule overflow-hidden">
+              <img
+                src={g.src}
+                alt={g.caption}
+                width="1600"
+                height="1000"
+                loading="lazy"
+                decoding="async"
+                class="w-full h-auto block"
+              />
+            </div>
+            <figcaption class="mt-2 text-sm text-muted leading-relaxed">{g.caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+  )}
 </BaseLayout>
 
 <style>
