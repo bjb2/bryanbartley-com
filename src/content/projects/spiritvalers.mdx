@@ -1,6 +1,6 @@
 ---
 title: SpiritValers
-tagline: A community wiki and build simulator for the game SpiritVale, with every number traced back to the game's own files.
+tagline: A community wiki and build planner for the game SpiritVale, with every number traced back to the game's own files.
 year: 2026
 status: live
 stack: [HTML, "Vanilla JS", WebGL, "Cloudflare Workers", "Cloudflare D1", "Cloudflare R2", "GitHub Pages", Node]
@@ -11,68 +11,77 @@ order: 1
 cover: /work/spiritvalers.png
 ---
 
-The codex holds every monster, item, map, skill, and status effect in the game,
+The wiki holds every monster, item, map, skill, and status effect in the game,
 each one carrying its own drop tables and stats. Click a piece of gear and it
 shows you the monsters that drop it, the rate they drop it at, and the public
-builds running it. The simulator goes further: allocate stats, equip and refine
+builds running it. The build planner goes further: allocate stats, equip and refine
 gear, socket cards and substats, pick your skills, and spin a 3D preview of the
 character while you work. When you finish, the Farm Plan routes you to whatever
 you're still short on and sorts the targets by how long each grind takes.
 
-It's built for the player who wants to plan a build before pouring a week into
-the grind, and who has given up on drop-rate tables. Those tables never answer
+50K players have visited the site. 2K builds have been saved. It's built for the 
+player who wants to plan a build before pouring a week into the grind, 
+and who has given up on drop-rate tables. Those tables never answer
 the question everyone is actually asking: how long is this going to take?
 
-## How it stays honest
+## How it works
 
 Every number traces to the game's Unity export or a named community source.
 Where nothing backs a value, the UI prints "no known source" or "unknown
 location" and leaves the gap showing. A generator compiles the raw export into
-committed data, then a verification gate runs about fifteen invariants before
+committed data, then a verification gate runs about 70 gates (351 assertions) before
 each deploy. A drop table pointing at an item that doesn't exist fails the gate.
 So does a map pool with a phantom monster, or an artifact piece with no listed
 source. When a check fails, the deploy stops until the data is fixed.
 
-## The Farm Plan
+## The Build Planner
 
-The planner is the part I'm proudest of. A 10% drop from a boss that respawns
-once an hour is worse than a 1% drop from a mob you can kill every few seconds,
-and the plan knows it. It prices each mob kill and boss attempt in seconds, adds
-up the wait for everything a build still needs, and routes you accordingly.
-Refine costs follow the same rule, cascading failures and downgrades included,
-so the hours it quotes land close to the hours you spend.
+The build planner is the part I'm proudest of. It started as an attempt to create
+a 3d model viewer, and eventually expanded to simulate the entire character sheet.
+Users write guides that include embedded chips that make it easy to contextualize
+information. Items enforce stat restrictions available in the game, including the 
+more complex essence and refine systems. Paired with a more experimental DPS simulator,
+it has become the go-to for players to plan their build before they farm it. 
 
 ## The social layer
 
 A thin backend carries whatever needs server state. Save a build and share it by
 link. Like and comment on other people's. Run a guild, where everyone's farming
-demand pools into one view with a shared bank and squad splits. There's a
-player-run auction house too: gear sells for coins, listed with its rolled
-substats, a proof screenshot, and an open trade record. Pages keep their own
-view counts. Builds serialize whole, so a shared link and a cloud save are the
-same object. The UI ships in seventeen languages, and the Chinese was built by
-hand from a community glossary.
+demand pools into one view with a shared bank. There's a player-run auction house too: 
+gear sells for coins, listed with its rolled substats, a proof screenshot, and an 
+open trade record. Pages keep their own view counts. Builds serialize whole, 
+so a shared link and a cloud save are the same object. The UI ships in 17 languages, 
+and the Chinese translation was built by hand from a community glossary.
 
 ## The arcade side
 
-Two side modes run on the same data. Spirit Clash is a quick wave-survival
+Two mini games run on the same data. Spirit Clash is a quick wave-survival
 battler drawn from the game's own classes, skills, and monsters. Training
 Grounds drops you onto a class against practice dummies, where you level up and
 climb a damage board.
 
 ## Stack
 
-The site itself stays deliberately thin. There's no framework and no bundler;
-every page is one HTML file with its CSS and JS inline, and the game data ships
-as committed JSON that a separate Node generator compiles offline from the Unity
-export. A single shared stylesheet holds every color and font token, so
-recoloring the whole site is one edit that flips both dark and light.
+The site itself stays deliberately thin. There is no framework and no bundler,
+and every page is a standalone HTML file holding its own layout and logic.
+Anything a second page needs moves into a shared ES module or the shared
+stylesheet, and a duplication gate fails the build when a function gets copied
+instead: seventeen pages currently ride on thirty-eight shared modules and one
+theme file that recolors the whole site, dark and light, from a single edit.
+The game data ships as committed JSON that a separate Node generator compiles
+offline from the Unity export.
 
-The backend runs entirely on Cloudflare, migrated onto it with zero downtime. D1
-stores the builds, view and like
-counts, guild rosters, and comments behind same-origin API shims, with its own
-auth and R2 for user emblems. Cloudflare Workers render the share-card previews
-and the Twitch streamer feed, and Cloudflare fronts the whole site as a CDN with
-cache rules on the data files. GitHub Pages hosts the static build through a
-GitHub Actions pipeline, and a deploy script runs the invariant gate, pushes,
-and purges the edge cache once the build lands.
+The backend runs entirely on Cloudflare, migrated onto it with zero downtime.
+Two Workers serve it. The API sits on a D1 database of thirty-two tables:
+builds and their version history, guild rosters and banks, comments,
+wishlists, score boards, and the player-run auction house down to its sealed
+offers and trade threads. The second renders the share-card previews. R2 holds
+user emblems, auction proof screenshots, and a daily database backup. A cron
+refreshes the Twitch live snapshot into KV every two minutes so the widget
+answers from the edge, and Workers AI captions each uploaded proof screenshot
+so obvious non-items are turned away before a human sees them. Cloudflare
+fronts the site as a CDN with cache rules on the data files. GitHub Pages
+serves the static build as an artifact staged by GitHub Actions, which keeps
+the tooling and backend source in the repo and off the site. The deploy script
+runs the seventy-check invariant gate, pushes, waits for the new files to
+reach the CDN, then purges the edge cache.
