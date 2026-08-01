@@ -15,7 +15,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" widt
   <text x="80" y="370" font-family='${SANS}' font-size="74" font-weight="500" fill="#1b1f2c">AI tooling, and</text>
   <text x="80" y="460" font-family='${SANS}' font-size="74" font-weight="500" fill="#1b1f2c">operator software.</text>
 
-  <text x="80" y="560" font-family='${SANS}' font-size="26" fill="#6b7280">tallyhq.org · boon.gifts · delectable.guide · markets-academy</text>
+  <text x="80" y="560" font-family='${SANS}' font-size="26" fill="#6b7280">spiritvalers.com · boon.gifts · delectable.guide · markets-academy</text>
 </svg>`;
 
 const out = await sharp(Buffer.from(svg))
