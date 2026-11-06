@@ -1,6 +1,6 @@
 ---
 title: AI Platform (Confidential) · GTM
-tagline: Paid acquisition for a consumer AI startup, built from an empty ad account and held to a target cost per signup while the product kept pivoting.
+tagline: Paid acquisition for a consumer AI startup, from an empty ad account to 8× the monthly leads at 60% lower cost per lead in four months.
 year: 2026
 status: live
 stack: [Meta Ads, Google Ads, Python, DuckDB, Remotion, ffmpeg, Gemini 3 Pro]
@@ -9,44 +9,60 @@ featured: true
 order: 3
 ---
 
-I run paid acquisition for a consumer AI startup. I'm keeping the client
-unnamed. I took over an empty ad account with one number to hit: keep the cost
-of a good signup under target while daily volume climbs about a hundredfold.
-Everything downstream reports to that number.
+I took over paid acquisition for a consumer AI startup with an empty ad account
+and one target: keep the cost of a good signup under a fixed number while volume
+scaled. I'm keeping the client unnamed, so every figure here is relative.
 
-## Finding the personas
+In the first four months, cost per lead fell about 60% while monthly spend grew
+4.7×, and monthly leads went up eightfold. Spend and efficiency usually pull
+against each other, so that's the result I'm proudest of. Later the client
+tightened the conversion event to completed signups only, which pushed the cost
+per lead up on paper. I report the account against both definitions instead of
+quoting the flattering one. Since then the monthly budget ceiling has gone up to
+about 3.5× what we spent in July.
 
-Nobody handed me the audience. The first read was an older, deliberate
-customer, the opposite of an impulse buyer. Later I went through the
-conversations people were actually having with the product, and two sharper
-personas fell out of them. Each got its own campaign and its own creative. I let
-the ad find its person instead of stacking interest targets, which Meta reads as
-low quality anyway.
+## One line of copy, 2.5× cheaper
 
-## Moving with the pivots
+My biggest creative lesson came from a clean accident. Two ads ran side by side
+in one ad set that week with the same visual, and only one line of copy
+differed. One named a pain the customer already felt. It got 2.3× the
+click-through rate and cost 2.5× less per lead than its twin, which described
+what the product promised. "Name the pain, not the promise" became the rule
+every concept since has been built on, and it's a big part of how I ship around
+five new ads a week without guessing.
 
-Most of the job is keeping up with the product. The conversion event used to be
-an email signup. Now it's a live chat with the product, so every campaign got
-rebuilt around click-to-message and every hook got rewritten to invite a text.
-The map grew past the launch cities into the major US metros. None of that was
-allowed to cost efficiency, and the same budget kept getting pushed harder.
+## The Instagram gap
 
-## Meta and Google
+Instagram and Facebook had the same CPM and the same click-through rate, but an
+Instagram lead cost more than twice as much. Everything before the click looked
+fine. It showed up on the landing page, where Instagram visitors converted at
+well under half the rate. So I picked up a phone and tapped the ad. Instagram's
+in-app browser opens logged out of Google, which means "Sign in with Google"
+sends people back to typing everything in by hand. That one was a product fix,
+not a media one.
 
-Meta carries the account. One identity creative hit the target cost per signup,
-and I've held it there through every re-learning window.
+## My own source of truth
 
-Google Search took more work. I ran it, then rebuilt it. Its expensive
-high-intent searches were the wrong intent. I cut them. The budget went to
-cheaper discovery searches, and it still couldn't reach a competitive cost per
-signup for a free product. So I paused it and moved the spend to where it
-converts.
+Most growth advice is folklore, and Ads Manager doesn't help much: it buries the
+per-variant breakdowns you need to know which headline actually did the work. I
+built my own warehouse that pulls the Meta Marketing API into DuckDB every day
+at the level of individual headlines and body copy. Dashboards and health checks
+sit on top. When a site change killed the tracking pixel for two and a half
+days, the warehouse flagged it as a tracking failure instead of letting it read
+as a collapse, and raw signups over the same days proved nothing real had been
+lost.
 
-## Treating it as data
+My toolkit also launches campaigns, carefully. Anything it creates starts
+paused, under hard spend caps per ad set and per launch, and only inside an
+allowlist of campaigns, with fourteen tests guarding those rules. Video ads
+render from code in a Remotion pipeline, and still images come out of a
+generation pipeline with its own quality checks.
 
-Most growth advice is folklore. I don't trust the dashboard. I capture the
-primary numbers myself and check attribution at the source, which means a shift
-in the market or on a platform shows up for me early. AI goes where it earns its
-keep: creative exploration, competitor monitoring. I built a pipeline that
-generates image and video creative, and a Chrome extension for competitor
-research. Organic content is the next thing I'm testing.
+## Reading results honestly
+
+It saved real money more than once. Our best creative once
+cost twice as much when the budget squeezed it into four mid-size metros as it
+did running across seventeen. That was a geography problem, not a creative one.
+Saying so freed budget instead of burning a winning concept. Google Search got
+the same treatment: for a free product it couldn't reach a competitive cost per
+signup, so I paused it and put the money back into Meta.
