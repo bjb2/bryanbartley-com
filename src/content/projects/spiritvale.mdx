@@ -1,0 +1,72 @@
+---
+title: SpiritVale
+tagline: UI I design and build inside the game itself. My first patch shipped a new login screen and a full loot filter to every player.
+year: 2026
+status: live
+stack: [Unity, "C#", uGUI, TextMeshPro]
+tags: [gaming, game-ui, unity]
+url: https://store.steampowered.com/app/3767850/SpiritVale/
+featured: true
+order: 2
+cover: /work/spiritvale/login.jpg
+gallery:
+  - src: /work/spiritvale/login-news.jpg
+    caption: Each news card opens into the full Steam post, wearing that post's own art.
+  - src: /work/spiritvale/loot-filter.jpg
+    caption: Settings → Loot Filter. The drop-rate threshold and category overrides sit beside a live preview of ground loot.
+  - src: /work/spiritvale/loot-rules.jpg
+    caption: Personal rules run in order. The first match wins.
+  - src: /work/spiritvale/loot-stats.jpg
+    caption: Stat conditions only offer values the stat can actually roll.
+  - src: /work/spiritvale/ground-before.jpg
+    caption: Drops on the ground. Rules set each one's line color.
+  - src: /work/spiritvale/ground-after.jpg
+    caption: One press of the loot key later. The filter took what it was told to and left the rest.
+---
+
+SpiritVale is an indie MMORPG on Steam. I started on the outside, building
+[SpiritValers](/work/spiritvalers), its community wiki. That got me into the
+game's repository. Now I design UI for the client and build it myself.
+
+My first commit landed on November 3. Patch 0.35.3 went out the next day with
+five of my changes in its notes:
+
+- a new login screen
+- a full loot filter on its own Settings page
+- a volume slider for loot sounds, so you can mute everything except drops
+- a toggle for auto-attacking after a skill
+- a support link in Settings
+
+## The loot filter
+
+Players decide which drops get picked up by their loot key and their pet. They
+also decide how a drop looks and sounds on the ground. A drop-rate threshold
+covers most of it. Any category can override that threshold to collect
+everything or to leave drops for manual pickup. Equipment and artifacts can also
+keep only drops with a minimum number of max-value stats.
+
+Personal rules sit on top of all that. The first match wins. A rule can target a
+whole category or narrow down to one of roughly 850 items. It can also test the
+rolled stats, like crit damage at least +7% or MP cost at most -10%. Values come
+from a dropdown of what the stat can actually roll, the way the auction house
+filter works, so nobody types a threshold that can never hit. A matching rule
+can force the pickup and set the drop's line color and sound.
+
+The page previews ground loot with the same evaluator the server runs. On the
+server, every drop is checked against each player's own filter. That includes
+parties on Even Share, where a member whose filter rejects a drop gets skipped.
+Rules never hide anything: click a drop and it's yours.
+
+## The login screen
+
+The old login screen was a region table next to a wall of patch-note text. Now a
+side rail shows each region's ping and how many players are online. Behind it,
+the key art crossfades every seven seconds. The latest three Steam announcements
+sit as cards, each wearing the art from its own Steam post, and open into a full
+panel. Every new string ships in all 17 of the game's languages.
+
+## How it gets in
+
+Each feature goes in as one branch with a written plan and screenshots for the
+developer. The tests run inside the editor and in automated play mode. The loot
+filter's self-check passed 440 of 440.
