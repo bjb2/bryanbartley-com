@@ -1,13 +1,15 @@
 // Draws the hand-drawn marks. Any element with data-ink="rule|underline|circle|box|vline|arrow"
 // gets an SVG overlay sized to it, redrawn when it resizes.
 //   data-ink-color  ink | accent | gilt | muted  (a --color-* token, default ink)
-//   data-ink-draw   view (draw on when scrolled into view, default) | hover | none
+//   data-ink-draw   view (draw on once when scrolled into view) | hover | none (just there).
+//                   Default: rules, boxes and vlines are just there; accents draw on once.
 //   data-ink-size   nib width in px;  data-ink-delay  ms before drawing on
 //   data-ink-from / data-ink-to "x,y" fractions of the box; data-ink-bend  (arrow only)
 import { centerline, hash, inkPath, rng, shapes } from '../lib/ink.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 const NIB = { rule: 2, underline: 3.2, circle: 2.6, box: 2, vline: 2.4, arrow: 2.2 };
+const mode = (el) => el.dataset.inkDraw || (['rule', 'box', 'vline'].includes(el.dataset.ink) ? 'none' : 'view');
 
 // where each drawing sits relative to the element it marks, in px
 const frame = (shape, w, h, fs) => {
@@ -38,7 +40,7 @@ const render = (el, seed) => {
     to: pair(el.dataset.inkTo, undefined),
     bend: el.dataset.inkBend === undefined ? undefined : Number(el.dataset.inkBend),
   });
-  const variants = [0, 1, 2].map((v) => `<path class="ink-v" d="${inkPath(strokes, { size, tremor, seed, variant: v })}"/>`).join('');
+  const ink = `<path d="${inkPath(strokes, { size, tremor, seed })}"/>`;
 
   const svg = document.createElementNS(NS, 'svg');
   svg.setAttribute('class', 'ink-svg');
@@ -47,8 +49,8 @@ const render = (el, seed) => {
   svg.setAttribute('height', String(f.h));
   svg.setAttribute('viewBox', `0 0 ${f.w} ${f.h}`);
   svg.style.cssText = `left:${f.x}px;top:${f.y}px;color:var(--color-${el.dataset.inkColor || 'ink'})`;
-  if (el.dataset.inkDraw === 'none') {
-    svg.innerHTML = variants;
+  if (mode(el) === 'none') {
+    svg.innerHTML = ink;
   } else {
     // a fat stroke along the pen's path, dashed and slid open: the ink appears in drawing order
     const id = `ink-m${++uid}`;
@@ -58,7 +60,7 @@ const render = (el, seed) => {
     svg.innerHTML =
       `<mask id="${id}" maskUnits="userSpaceOnUse" x="-40" y="-40" width="${f.w + 80}" height="${f.h + 80}">` +
       `<path class="ink-mask" d="${d}" fill="none" stroke="#fff" stroke-width="${size * 2 + tremor * 4 + 6}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="${L} ${L}" stroke-dashoffset="${L}" style="transition-duration:${dur}ms;transition-delay:${el.dataset.inkDelay || 0}ms"/>` +
-      `</mask><g mask="url(#${id})">${variants}</g>`;
+      `</mask><g mask="url(#${id})">${ink}</g>`;
   }
   el.querySelector(':scope > .ink-svg')?.remove();
   el.append(svg);
@@ -92,5 +94,5 @@ const resized = new ResizeObserver((entries) => {
 
 for (const el of els) {
   resized.observe(el);
-  if ((el.dataset.inkDraw || 'view') === 'view') seen.observe(el);
+  if (mode(el) === 'view') seen.observe(el);
 }

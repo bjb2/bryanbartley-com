@@ -1,5 +1,5 @@
 // Hand-drawn ink, ported from the trailer (bryan-trailer/src/ink/Ink.tsx): a polyline gets a
-// low-frequency hand tremor, re-seeded per boil variant, and perfect-freehand turns it into a
+// low-frequency hand tremor, and perfect-freehand turns it into a
 // pressure-shaped filled outline. Plain JS so the browser overlay script and the OG-image
 // generator (node) share one hand.
 import { getStroke } from 'perfect-freehand';
@@ -59,16 +59,15 @@ const outline = (stroke) => {
 };
 
 /**
- * Filled outline for a set of pen strokes. `variant` re-seeds the tremor: render 0, 1 and 2 and
- * cycle them for line boil.
+ * Filled outline for a set of pen strokes; `seed` fixes the hand tremor so a mark redraws identically.
  * @param {number[][][]} strokes
- * @param {{size?: number, tremor?: number, seed?: number, variant?: number}} [o]
+ * @param {{size?: number, tremor?: number, seed?: number}} [o]
  */
-export const inkPath = (strokes, { size = 3, tremor = 0.9, seed = 1, variant = 0 } = {}) =>
+export const inkPath = (strokes, { size = 3, tremor = 0.9, seed = 1 } = {}) =>
   strokes
     .map((raw, si) => {
       const { pts, len } = resample(raw, Math.max(2, size * 0.9));
-      const s = seed * 7.31 + si * 13.7 + variant * 3.17;
+      const s = seed * 7.31 + si * 13.7;
       const freq = 1 / 38; // one wobble per ~38px of line
       const jittered = pts.map(([x, y], i) => {
         const t = (i * len) / pts.length;

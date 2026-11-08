@@ -61,7 +61,7 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? 'https://bryanbartley.com
         <nav class="flex flex-wrap gap-x-5 gap-y-2 font-mono text-sm pb-1">
           {nav.map((n) => (
             <a href={n.href} class:list={['no-underline', n.active ? 'text-ink' : 'text-muted hover:text-ink']} aria-current={n.active ? 'page' : undefined}>
-              <span data-ink="underline" data-ink-color={n.active ? 'gilt' : 'accent'} data-ink-size="2.6" data-ink-draw={n.active ? 'view' : 'hover'}>{n.label}</span>
+              <span data-ink="underline" data-ink-color={n.active ? 'gilt' : 'accent'} data-ink-size="2.6" data-ink-draw={n.active ? 'none' : 'hover'}>{n.label}</span>
             </a>
           ))}
         </nav>

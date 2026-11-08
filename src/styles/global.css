@@ -74,26 +74,6 @@ html {
   fill: currentColor;
 }
 
-/* line boil: three tremors of the same stroke, cycled at 7.5 fps like the film */
-.ink-v {
-  opacity: 0;
-  animation: ink-boil 400ms steps(1, end) infinite;
-}
-.ink-v:nth-of-type(2) {
-  animation-delay: -133ms;
-}
-.ink-v:nth-of-type(3) {
-  animation-delay: -267ms;
-}
-@keyframes ink-boil {
-  0% {
-    opacity: 1;
-  }
-  33.333% {
-    opacity: 0;
-  }
-}
-
 .ink-mask {
   transition-property: stroke-dashoffset;
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
@@ -113,12 +93,6 @@ a:not(:hover) [data-ink-draw="hover"] > .ink-svg .ink-mask {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ink-v {
-    animation: none;
-  }
-  .ink-v:first-of-type {
-    opacity: 1;
-  }
   .ink-mask {
     transition: none !important;
   }
