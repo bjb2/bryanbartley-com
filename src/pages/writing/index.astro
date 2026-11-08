@@ -16,8 +16,8 @@ const grouped = pieces.reduce((acc, p) => {
 const years = Object.keys(grouped).map(Number).sort((a, b) => b - a);
 ---
 <BaseLayout title="Writing · Bryan Bartley">
-  <h1 class="text-3xl font-medium mb-2">Writing</h1>
-  <p class="text-muted mb-12">Essays, poems, songs, and notes.</p>
+  <h1 class="display text-6xl mb-4">writing<span class="dot">.</span></h1>
+  <p class="text-muted mb-14">Essays, poems, songs, and notes.</p>
 
   {pieces.length === 0 ? (
     <p class="text-muted">Nothing posted yet.</p>
@@ -25,13 +25,16 @@ const years = Object.keys(grouped).map(Number).sort((a, b) => b - a);
     <div class="space-y-12">
       {years.map((year) => (
         <section>
-          <h2 class="font-mono text-xs uppercase tracking-wider text-muted mb-4">{year}</h2>
-          <ul class="space-y-5">
+          <h2 class="label mb-5">{year}</h2>
+          <ul class="space-y-6">
             {grouped[year].map((p) => (
               <li>
-                <a href={`/writing/${p.id}`} class="group block">
+                <a href={`/writing/${p.id}`} class="group block no-underline">
                   <div class="flex items-baseline justify-between gap-4">
-                    <span class="font-medium group-hover:text-accent">{p.data.title}</span>
+                    <span class="flex items-baseline gap-2 font-semibold tracking-[-0.01em]">
+                      <span class="group-hover:text-accent">{p.data.title}</span>
+                      <span data-ink="arrow" data-ink-color="accent" data-ink-draw="hover" class="inline-block w-9 h-3 shrink-0"></span>
+                    </span>
                     <span class="font-mono text-xs text-muted whitespace-nowrap">{fmt.format(p.data.date)}</span>
                   </div>
                   {p.data.excerpt && (

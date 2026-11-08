@@ -6,27 +6,40 @@ const projects = (await getCollection('projects'))
   .filter((p) => p.data.featured)
   .sort((a, b) => a.data.order - b.data.order);
 ---
-<BaseLayout title="Bryan Bartley · independent builder and consultant">
-  <section class="mb-16">
-    <h1 class="text-3xl font-medium leading-tight mb-4">
-      I build data systems, AI tooling, and operator software.
+<BaseLayout title="Bryan Bartley · independent builder and consultant" hero>
+  <section class="mb-20">
+    <h1 class="display text-[clamp(3.4rem,13vw,6.6rem)] mt-4 mb-8">
+      bryan bartley<span class="dot">.</span>
     </h1>
-    <p class="text-muted text-lg leading-relaxed">
-      I live in San Antonio. These days I build game UI for
-      <a href="/work/spiritvale" class="underline decoration-rule hover:decoration-accent">SpiritVale</a>
-      and run growth for an AI startup through
-      <a href="/consulting" class="underline decoration-rule hover:decoration-accent">Five Whys</a>.
+    <p class="text-2xl sm:text-[1.7rem] font-medium leading-snug tracking-[-0.02em] mb-5 max-w-2xl">
+      I build data systems, AI tooling, and
+      <span class="whitespace-nowrap"><span data-ink="underline" data-ink-color="gilt" data-ink-delay="250">operator software</span>.</span>
     </p>
+    <div class="relative">
+      <p class="text-muted text-lg leading-relaxed max-w-xl">
+        I live in San Antonio. These days I build game UI for
+        <a href="/work/spiritvale" class="text-ink no-underline hover:text-accent mx-1"><span data-ink="circle" data-ink-color="accent" data-ink-delay="700">SpiritVale</span></a>
+        and run growth for an AI startup through
+        <a href="/consulting" class="text-ink underline decoration-gilt decoration-2 underline-offset-4 hover:text-accent">Five Whys</a>.
+      </p>
+      <div class="hidden lg:flex absolute left-[37rem] -top-2 w-64 items-start gap-1" aria-hidden="true">
+        <div data-ink="arrow" data-ink-color="accent" data-ink-from="0.95,0.8" data-ink-to="0.05,0.4" data-ink-bend="0.25" data-ink-delay="1100" class="h-10 w-14 shrink-0"></div>
+        <p class="hand text-[1.55rem] text-accent -rotate-3 mt-4 leading-[0.95]">shipped to every player<br />in week one</p>
+      </div>
+    </div>
   </section>
 
-  <section class="mb-16">
-    <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-6">Selected work</h2>
+  <section class="mb-20">
+    <h2 class="label mb-6">Selected work</h2>
     <ul class="space-y-6">
       {projects.map((p) => (
         <li>
-          <a href={`/work/${p.id}`} class="group block">
+          <a href={`/work/${p.id}`} class="group block no-underline">
             <div class="flex items-baseline justify-between gap-4">
-              <span class="font-medium group-hover:text-accent">{p.data.title}</span>
+              <span class="flex items-baseline gap-2">
+                <span class="font-semibold tracking-[-0.01em] group-hover:text-accent">{p.data.title}</span>
+                <span data-ink="arrow" data-ink-color="accent" data-ink-draw="hover" class="inline-block w-9 h-3 translate-y-[1px]"></span>
+              </span>
               <span class="font-mono text-xs text-muted">{p.data.year}</span>
             </div>
             <p class="text-muted text-sm mt-1">{p.data.tagline}</p>
@@ -34,14 +47,17 @@ const projects = (await getCollection('projects'))
         </li>
       ))}
     </ul>
-    <a href="/work" class="inline-block mt-8 text-sm hover:text-accent">All projects →</a>
+    <a href="/work" class="inline-flex items-baseline gap-2 mt-10 text-sm font-mono no-underline group">
+      <span data-ink="underline" data-ink-color="accent" data-ink-draw="hover" data-ink-size="2.4">all projects</span>
+      <span class="text-accent">→</span>
+    </a>
   </section>
 
   <section>
-    <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-4">Hire me</h2>
+    <h2 class="label mb-4">Hire me</h2>
     <p class="text-muted leading-relaxed">
       I take on a small number of consulting engagements per year through
-      <a href="/consulting" class="underline decoration-rule hover:decoration-accent">Five Whys</a>.
+      <a href="/consulting" class="text-ink underline decoration-gilt decoration-2 underline-offset-4 hover:text-accent">Five Whys</a>.
       Most are AI integration, data infrastructure, or operator-tool builds.
     </p>
   </section>

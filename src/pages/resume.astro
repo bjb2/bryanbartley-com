@@ -127,15 +127,16 @@ const roles: Role[] = [
 ];
 ---
 <BaseLayout title="Resume · Bryan Bartley" description="Bryan Bartley, independent builder, consultant, and operator. Career history and credentials.">
-  <header class="mb-12 pb-6 border-b border-rule flex items-end justify-between gap-4 flex-wrap">
+  <header class="mb-4 flex items-end justify-between gap-4 flex-wrap">
     <div>
-      <h1 class="text-3xl font-medium mb-1">Resume</h1>
+      <h1 class="display text-6xl mb-4">resume<span class="dot">.</span></h1>
       <p class="text-muted">San Antonio, TX · bryan@fivewhys.org</p>
     </div>
-    <a href="/bryan-bartley-resume.pdf" class="font-mono text-xs uppercase tracking-wider text-ink hover:text-accent border border-rule px-3 py-2">
+    <a href="/bryan-bartley-resume.pdf" class="font-mono text-xs uppercase tracking-wider text-ink hover:text-accent no-underline px-3 py-2" data-ink="box" data-ink-size="1.6" data-ink-draw="none">
       Download PDF →
     </a>
   </header>
+  <div data-ink="rule" data-ink-size="1.6" class="h-3 mb-12"></div>
 
   <section class="mb-12">
     <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-3">The pitch</h2>
@@ -151,7 +152,7 @@ const roles: Role[] = [
         <li>
           <div class="flex items-baseline justify-between gap-4 flex-wrap mb-1">
             <div>
-              <span class="font-medium">{r.title}</span>
+              <span class="font-semibold tracking-[-0.01em]">{r.title}</span>
               <span class="text-muted"> · {r.company}</span>
               <span class="text-muted"> · {r.location}</span>
             </div>
@@ -159,7 +160,7 @@ const roles: Role[] = [
           </div>
           {r.blurb && <p class="text-muted text-sm italic mb-3">{r.blurb}</p>}
           {r.bullets && (
-            <ul class="list-disc pl-5 space-y-1 text-[0.95rem] leading-relaxed">
+            <ul class="list-disc marker:text-gilt pl-5 space-y-1 text-[0.95rem] leading-relaxed">
               {r.bullets.map((b) => <li>{b}</li>)}
             </ul>
           )}
@@ -168,7 +169,7 @@ const roles: Role[] = [
               {r.sections.map((s) => (
                 <div>
                   <div class="font-mono text-xs uppercase tracking-wider text-muted mb-1">{s.label}</div>
-                  <ul class="list-disc pl-5 space-y-1 text-[0.95rem] leading-relaxed">
+                  <ul class="list-disc marker:text-gilt pl-5 space-y-1 text-[0.95rem] leading-relaxed">
                     {s.bullets.map((b) => <li>{b}</li>)}
                   </ul>
                 </div>
@@ -184,11 +185,11 @@ const roles: Role[] = [
     <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-3">Education</h2>
     <ul class="space-y-2">
       <li>
-        <span class="font-medium">MBA</span>
+        <span class="font-semibold">MBA</span>
         <span class="text-muted"> · Western Governors University · Class of 2021</span>
       </li>
       <li>
-        <span class="font-medium">BBA, Management Science</span>
+        <span class="font-semibold">BBA, Management Science</span>
         <span class="text-muted"> · University of Texas at San Antonio · Class of 2016</span>
       </li>
     </ul>

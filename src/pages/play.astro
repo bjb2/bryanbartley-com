@@ -10,42 +10,38 @@ const items = (await getCollection('play'))
   });
 ---
 <BaseLayout title="Play · Bryan Bartley" description="Side projects and curiosities. Games, sprites, AI experiments, gacha machines, music tools.">
-  <h1 class="text-3xl font-medium mb-2">Play</h1>
+  <h1 class="display text-6xl mb-4">play<span class="dot">.</span></h1>
   <p class="text-muted max-w-xl leading-relaxed">
     Side projects and curiosities. None of it is billable. Some of it
     works. The rest taught me something.
   </p>
-  <p class="text-sm text-muted mt-3 mb-12">
-    My songs live on Suno → <a href="https://suno.com/@buhhhryan?page=songs" class="underline decoration-rule hover:decoration-accent">@buhhhryan</a>
+  <p class="text-sm text-muted mt-3 mb-14">
+    My songs live on Suno → <a href="https://suno.com/@buhhhryan?page=songs" class="text-ink underline decoration-gilt decoration-2 underline-offset-4 hover:text-accent">@buhhhryan</a>
   </p>
 
   {items.length === 0 ? (
     <p class="text-muted">Nothing here yet.</p>
   ) : (
-    <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-      {items.map((item) => {
+    <div class="columns-1 sm:columns-2 lg:columns-3 gap-7">
+      {items.map((item, i) => {
         const Wrapper = item.data.url ? 'a' : 'div';
+        // inline-block, not block: the ink overlays' overflow otherwise stops the columns balancing
         const wrapperProps = item.data.url
-          ? { href: item.data.url, class: 'group block break-inside-avoid mb-6 no-underline' }
-          : { class: 'block break-inside-avoid mb-6' };
+          ? { href: item.data.url, class: 'group inline-block w-full mb-9 no-underline' }
+          : { class: 'inline-block w-full mb-9' };
         return (
           <Wrapper {...wrapperProps}>
-            {item.data.image ? (
-              <div class="border border-rule overflow-hidden">
-                <img
-                  src={item.data.image}
-                  alt={item.data.title}
-                  loading="lazy"
-                  class={`w-full h-auto block ${item.data.url ? 'group-hover:opacity-90 transition-opacity' : ''}`}
-                />
-              </div>
-            ) : (
-              <div class="border border-rule aspect-[4/3] flex items-center justify-center bg-rule/30">
-                <span class="font-mono text-xs uppercase tracking-wider text-muted">image pending</span>
-              </div>
-            )}
-            <div class="mt-3 flex items-baseline justify-between gap-3">
-              <h3 class={`font-medium ${item.data.url ? 'group-hover:text-accent' : ''}`}>{item.data.title}</h3>
+            <div class="mat" data-ink="box" data-ink-size="1.6" style={`--tilt:${[-0.8, 0.6, -0.4, 0.9][i % 4]}deg`}>
+              {item.data.image ? (
+                <img src={item.data.image} alt={item.data.title} loading="lazy" class="w-full h-auto block" />
+              ) : (
+                <div class="aspect-[4/3] flex items-center justify-center bg-accent-tint">
+                  <span class="hand text-2xl text-muted">image pending</span>
+                </div>
+              )}
+            </div>
+            <div class="mt-4 flex items-baseline justify-between gap-3">
+              <h3 class={`font-semibold tracking-[-0.01em] ${item.data.url ? 'group-hover:text-accent' : ''}`}>{item.data.title}</h3>
               {item.data.year && <span class="font-mono text-xs text-muted">{item.data.year}</span>}
             </div>
             <p class="text-sm text-muted leading-relaxed mt-1">{item.data.caption}</p>

@@ -6,6 +6,8 @@ interface Props {
   description?: string;
   brand?: 'bb' | 'fw';
   ogImage?: string;
+  /** the page sets the wordmark itself, large; the header keeps only the nav */
+  hero?: boolean;
 }
 
 const {
@@ -13,8 +15,11 @@ const {
   description = 'Bryan Bartley builds data systems, AI tooling, and operator software end-to-end.',
   brand = 'bb',
   ogImage = '/og-default.png',
+  hero = false,
 } = Astro.props;
 const isFiveWhys = brand === 'fw';
+const path = Astro.url.pathname;
+const nav = ['work', 'play', 'writing', 'consulting', 'resume'].map((n) => ({ label: n, href: `/${n}`, active: path === `/${n}` || path.startsWith(`/${n}/`) }));
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://bryanbartley.com').toString();
 const absoluteOgImage = new URL(ogImage, Astro.site ?? 'https://bryanbartley.com').toString();
 ---
@@ -42,33 +47,46 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? 'https://bryanbartley.com
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <meta name="theme-color" content="#fafaf9" />
+    <script is:inline>document.documentElement.classList.add('ink');</script>
   </head>
   <body class="min-h-screen flex flex-col">
-    <header class="border-b border-rule">
-      <div class="max-w-3xl mx-auto px-6 py-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-        <a href="/" class="font-mono text-sm tracking-tight text-ink no-underline">
-          {isFiveWhys ? 'five whys' : 'bryan bartley'}
-        </a>
-        <nav class="flex flex-wrap gap-x-5 gap-y-2 text-sm">
-          <a href="/work" class="text-ink hover:text-accent no-underline">work</a>
-          <a href="/play" class="text-ink hover:text-accent no-underline">play</a>
-          <a href="/writing" class="text-ink hover:text-accent no-underline">writing</a>
-          <a href="/consulting" class="text-ink hover:text-accent no-underline">consulting</a>
-          <a href="/resume" class="text-ink hover:text-accent no-underline">resume</a>
+    <header>
+      <div class="max-w-3xl mx-auto px-6 pt-8 pb-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+        {hero ? <span /> : (
+          <a href="/" class="display text-[1.7rem] text-ink no-underline">
+            {isFiveWhys ? 'five whys' : 'bryan bartley'}<span class="dot">.</span>
+          </a>
+        )}
+        <nav class="flex flex-wrap gap-x-5 gap-y-2 font-mono text-sm pb-1">
+          {nav.map((n) => (
+            <a href={n.href} class:list={['no-underline', n.active ? 'text-ink' : 'text-muted hover:text-ink']} aria-current={n.active ? 'page' : undefined}>
+              <span data-ink="underline" data-ink-color={n.active ? 'gilt' : 'accent'} data-ink-size="2.6" data-ink-draw={n.active ? 'view' : 'hover'}>{n.label}</span>
+            </a>
+          ))}
         </nav>
+      </div>
+      <div class="max-w-3xl mx-auto px-6">
+        <div data-ink="rule" data-ink-size="1.8" class="h-3"></div>
       </div>
     </header>
     <main class="flex-1 max-w-3xl mx-auto px-6 py-12 w-full">
       <slot />
     </main>
-    <footer class="border-t border-rule mt-16">
-      <div class="max-w-3xl mx-auto px-6 py-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-sm text-muted">
+    <footer class="mt-16">
+      <div class="max-w-3xl mx-auto px-6">
+        <div data-ink="rule" data-ink-size="1.8" class="h-3"></div>
+      </div>
+      <div class="max-w-3xl mx-auto px-6 pt-3 pb-8 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-sm text-muted">
         <span>© {new Date().getFullYear()} Bryan Bartley</span>
-        <span class="flex gap-4">
+        <span class="flex gap-4 font-mono">
           <a href="https://x.com/buhhhryan" class="text-muted hover:text-accent no-underline">x</a>
           <a href="https://github.com/bjb2" class="text-muted hover:text-accent no-underline">github</a>
         </span>
       </div>
     </footer>
+    <script>
+      import '../scripts/ink.js';
+    </script>
   </body>
 </html>

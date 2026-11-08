@@ -1,6 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const results = [
+  { n: '8×', label: 'monthly leads in four months' },
+  { n: '−60%', label: 'cost per lead, same client' },
+  { n: '100K+', label: "users on vidIQ's AI Coach, which I took to market" },
+  { n: '+50%', label: 'checkout conversion after I rebuilt vidIQ payments' },
+];
+
+const offers = [
+  'Paid acquisition on Meta and Google, built from zero or taken over mid-flight by someone who reads the raw numbers instead of trusting the ad platform’s version of events.',
+  'AI features and internal tools that ship.',
+  'Tracking checked at the source. Your dashboard stops lying to you.',
+  'Or all of it: one person instead of three vendors.',
+];
+
 const testimonials = [
   {
     quote: "Bryan is incredible to work with. I don't know anyone that had more skills or the ability to roll their own sleeves up to get stuff done! Highly recommended.",
@@ -13,136 +27,74 @@ const testimonials = [
     company: 'GrayStone Insurance',
   },
 ];
+
+const call = 'https://tidycal.com/bbartley/30-minute-meeting';
+const mail = 'bryan@fivewhys.org';
 ---
 <BaseLayout
   title="Five Whys · AI and growth consulting for early-stage teams"
-  description="AI tooling, data infrastructure, paid media, and operator software for founders and small operating teams."
+  description="Growth and AI tooling for early-stage teams, from someone who checks the math."
   brand="fw"
 >
-  <section class="mb-16">
-    <p class="font-mono text-xs uppercase tracking-wider text-muted mb-3">Five Whys</p>
-    <h1 class="text-3xl font-medium leading-tight mb-5">
-      AI tooling and growth infrastructure for early-stage teams.
+  <section class="mb-20">
+    <p class="label mb-5">Five Whys · consulting</p>
+    <h1 class="text-4xl sm:text-5xl font-semibold tracking-[-0.035em] leading-[1.05] mb-6 text-balance">
+      Growth and AI tooling for <span class="whitespace-nowrap">early-stage</span> teams, from someone who
+      <span class="whitespace-nowrap"><span data-ink="underline" data-ink-color="gilt" data-ink-delay="300">checks the math</span><span class="dot">.</span></span>
     </h1>
-    <p class="text-lg leading-relaxed text-muted">
-      I help founders and small operating teams ship the AI features,
-      data products, and growth systems that move the business. Previously
-      Director of Business Operations at vidIQ, where I led GTM for the
-      GPT-based AI Coach (100K+ users) and rebuilt the payments stack
-      (50%+ conversion lift). I also ship public products solo:
-      <a href="/work" class="underline decoration-rule hover:decoration-accent">spiritvalers.com</a>.
+    <p class="text-lg leading-relaxed text-muted max-w-2xl">
+      I ran business operations at vidIQ, then went out on my own.
+      <a href="/work/ai-platform-gtm" class="text-ink underline decoration-gilt decoration-2 underline-offset-4 hover:text-accent">My latest client</a>
+      started with an empty ad account. Four months later they had eight times the monthly leads, and each one cost 60% less.
     </p>
-    <div class="mt-6 flex flex-wrap gap-3">
-      <a href="https://tidycal.com/bbartley/30-minute-meeting" class="inline-block px-4 py-2 bg-ink text-paper text-sm no-underline">
+    <div class="mt-8 flex flex-wrap items-center gap-4">
+      <a href={call} class="inline-block px-5 py-2.5 bg-ink text-paper text-sm font-medium no-underline hover:bg-accent transition-colors">
         Book a 30-min call →
       </a>
-      <a href="mailto:bryan@fivewhys.org" class="inline-block px-4 py-2 border border-rule text-sm no-underline">
-        bryan@fivewhys.org
+      <a href={`mailto:${mail}`} class="inline-block px-4 py-2 text-sm font-mono no-underline hover:text-accent" data-ink="box" data-ink-size="1.6" data-ink-draw="none">
+        {mail}
       </a>
     </div>
   </section>
 
-  <section class="mb-16">
-    <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-6">Things I build with you</h2>
-    <div class="space-y-8">
-      <div>
-        <h3 class="font-medium mb-2">AI features that ship in production.</h3>
-        <p class="text-muted leading-relaxed">
-          Real LLM-powered functionality wired into your product, your billing,
-          and your support. I've shipped this at vidIQ (100K-user AI Coach,
-          chat-integrated MCP), on SpiritValers (auto-moderation flows),
-          and in my consulting practice (ad creative pipelines).
-        </p>
-      </div>
-      <div>
-        <h3 class="font-medium mb-2">Data infrastructure your team will actually use.</h3>
-        <p class="text-muted leading-relaxed">
-          Pipelines, warehouses, and dashboards built to preempt the questions
-          the operating team actually asks. I led analytics and forecasting across
-          Finance, Marketing, and Product at vidIQ, implemented Apache Superset
-          there, and have over a decade working with SQL, Tableau, and Jupyter.
-        </p>
-      </div>
-      <div>
-        <h3 class="font-medium mb-2">Paid media systems, zero to one.</h3>
-        <p class="text-muted leading-relaxed">
-          B2C SaaS paid acquisition from cold-start to systematized growth,
-          with attribution that survives the post-iOS-14 measurement era.
-          Currently running multi-market Meta + Google campaigns for a venue-
-          curation business across NYC, the Bay Area, and Ann Arbor.
-        </p>
-      </div>
-      <div>
-        <h3 class="font-medium mb-2">The operator software that holds it together.</h3>
-        <p class="text-muted leading-relaxed">
-          CRM cleanups, workflow automation, custom internal tools, the
-          migrations nobody is excited to lead. The work that determines
-          whether the operation actually runs at scale.
-        </p>
-      </div>
+  <section class="mb-20 relative">
+    <h2 class="label mb-8">Recent results</h2>
+    <div class="grid grid-cols-2 gap-x-8 gap-y-10">
+      {results.map((r, i) => (
+        <div>
+          <div class:list={['display text-5xl sm:text-6xl', i === 0 ? 'text-gilt' : 'text-ink']}>{r.n}</div>
+          <p class="text-sm text-muted mt-3 max-w-[16rem] leading-snug">{r.label}</p>
+        </div>
+      ))}
+    </div>
+    <div class="hidden lg:flex absolute -right-44 top-10 w-48 items-start gap-1" aria-hidden="true">
+      <div data-ink="arrow" data-ink-color="accent" data-ink-from="0.95,0.9" data-ink-to="0.05,0.25" data-ink-bend="-0.25" data-ink-delay="400" class="h-12 w-12 shrink-0"></div>
+      <p class="hand text-[1.5rem] text-accent rotate-2 mt-7 leading-[0.95]">client unnamed.<br />numbers real.</p>
     </div>
   </section>
 
-  <section class="mb-16">
-    <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-6">Engagement</h2>
-    <div class="border border-rule p-6">
-      <div class="flex items-baseline justify-between gap-4 flex-wrap mb-3">
-        <div class="font-medium">The whole kit</div>
-        <div class="font-mono text-sm text-muted">from $4K / month</div>
-      </div>
-      <p class="text-muted leading-relaxed mb-6">
-        I set up and run your Facebook and Google campaigns, build the tooling
-        around them, and stand up the reporting that tells you what is working.
-        One engagement instead of three vendors.
-      </p>
-      <div class="grid sm:grid-cols-3 gap-6 border-t border-rule pt-5">
-        <div>
-          <div class="font-medium text-sm mb-1">Paid media</div>
-          <p class="text-sm text-muted leading-relaxed">
-            Facebook and Google, built from scratch or taken over. Account
-            structure, tracking, creative, and the weekly work of holding cost
-            per signup down while the target moves.
-          </p>
-        </div>
-        <div>
-          <div class="font-medium text-sm mb-1">AI tool buildout</div>
-          <p class="text-sm text-muted leading-relaxed">
-            Creative pipelines, internal tools, and LLM features wired into the
-            product and the workflows you already have.
-          </p>
-        </div>
-        <div>
-          <div class="font-medium text-sm mb-1">Analytics &amp; dashboarding</div>
-          <p class="text-sm text-muted leading-relaxed">
-            Conversion tracking verified at the source, the numbers pulled into
-            one place, and dashboards your team reads without asking me first.
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="border border-rule p-5 mt-4">
-      <div class="flex items-baseline justify-between gap-4 flex-wrap mb-2">
-        <div class="font-medium">Non-profits and employee-owned businesses</div>
-        <div class="font-mono text-sm text-muted">reduced rate</div>
-      </div>
-      <p class="text-sm text-muted leading-relaxed">
-        Same scope, lower price. If you are mission-driven or owned by the
-        people doing the work, tell me what you are trying to do and we will
-        find a number that fits the budget.
-      </p>
-    </div>
-    <p class="text-xs text-muted mt-4">
-      Month-to-month. Plans change, pause, or end any time. Invoicing on request.
+  <section class="mb-20">
+    <h2 class="label mb-6">What I do</h2>
+    <ul class="space-y-4">
+      {offers.map((o, i) => (
+        <li class="flex gap-4">
+          <span class="font-mono text-xs text-gilt pt-1.5">0{i + 1}</span>
+          <span class:list={['leading-relaxed', i === offers.length - 1 ? 'font-semibold' : '']}>{o}</span>
+        </li>
+      ))}
+    </ul>
+    <p class="text-sm text-muted mt-8 leading-relaxed max-w-xl">
+      Month to month, and you can pause or end it whenever you want. Non-profits and employee-owned businesses get a reduced rate.
     </p>
   </section>
 
-  <section class="mb-16">
-    <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-6">Past clients</h2>
-    <div class="space-y-8">
+  <section class="mb-20">
+    <h2 class="label mb-8">Past clients</h2>
+    <div class="space-y-10">
       {testimonials.map((t) => (
-        <blockquote class="border-l-2 border-rule pl-5">
-          <p class="italic leading-relaxed text-[0.95rem]">"{t.quote}"</p>
-          <footer class="mt-2 text-sm text-muted">
+        <blockquote class="pl-6 ml-1" data-ink="vline" data-ink-color="gilt" data-ink-size="2.2">
+          <p class="leading-relaxed">“{t.quote}”</p>
+          <footer class="mt-3 font-mono text-xs text-muted">
             {t.name}, {t.company}
           </footer>
         </blockquote>
@@ -151,18 +103,16 @@ const testimonials = [
   </section>
 
   <section>
-    <h2 class="text-sm font-mono uppercase tracking-wider text-muted mb-4">Start with a 30-min call</h2>
-    <p class="leading-relaxed text-muted mb-6">
-      No deck, no pitch, no obligation. We talk about what you're trying to ship
-      and whether I'm useful for it. If the fit isn't there, I'll usually be able
-      to point you to someone who is.
+    <h2 class="label mb-4">Start with a 30-min call</h2>
+    <p class="leading-relaxed text-muted mb-7 max-w-xl">
+      No deck. No pitch. Tell me what you're trying to ship, and if I'm not the right person for it, I'll usually know who is.
     </p>
-    <div class="flex flex-wrap gap-3">
-      <a href="https://tidycal.com/bbartley/30-minute-meeting" class="inline-block px-4 py-2 bg-ink text-paper text-sm no-underline">
+    <div class="flex flex-wrap items-center gap-4">
+      <a href={call} class="inline-block px-5 py-2.5 bg-ink text-paper text-sm font-medium no-underline hover:bg-accent transition-colors">
         Book a 30-min call →
       </a>
-      <a href="mailto:bryan@fivewhys.org" class="inline-block px-4 py-2 border border-rule text-sm no-underline">
-        bryan@fivewhys.org
+      <a href={`mailto:${mail}`} class="inline-block px-4 py-2 text-sm font-mono no-underline hover:text-accent" data-ink="box" data-ink-size="1.6" data-ink-draw="none">
+        {mail}
       </a>
     </div>
   </section>

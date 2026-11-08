@@ -1,14 +1,24 @@
 @import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/jetbrains-mono";
+@import "@fontsource-variable/caveat";
 
+/* "Ink & Lapis", shared with the trailer: ink on paper, lapis for links, gilt used sparingly
+   (the wordmark's period, numbers, underlines). Caveat is marginalia only. */
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
+  --font-hand: "Caveat Variable", "Caveat", cursive;
 
-  --color-ink: oklch(0.18 0.02 250);
-  --color-paper: oklch(0.985 0 0);
-  --color-muted: oklch(0.55 0.01 250);
-  --color-rule: oklch(0.9 0.005 250);
-  --color-accent: oklch(0.55 0.18 255);
+  --color-ink: #1b1f2c;
+  --color-paper: #fafaf9;
+  --color-muted: #6b7280;
+  --color-rule: #e2e5ea;
+  --color-accent: #0b6bd3;
+  --color-accent-tint: #e4edfa;
+  --color-gilt: #c8963e;
+  --color-gilt-tint: #f3e7cf;
+  --color-night: #151b28;
 }
 
 html {
@@ -16,4 +26,215 @@ html {
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-gilt-tint);
+}
+
+/* the wordmark grammar: Inter semibold, tight, lowercase, a gilt period */
+.display {
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+}
+.dot {
+  color: var(--color-gilt);
+}
+
+/* section labels */
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--color-muted);
+}
+
+/* marginalia */
+.hand {
+  font-family: var(--font-hand);
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ---------- ink overlays (src/scripts/ink.js) ---------- */
+
+[data-ink] {
+  position: relative;
+}
+[data-ink="underline"],
+[data-ink="circle"] {
+  display: inline-block;
+}
+.ink-svg {
+  position: absolute;
+  overflow: visible;
+  pointer-events: none;
+  fill: currentColor;
+}
+
+/* line boil: three tremors of the same stroke, cycled at 7.5 fps like the film */
+.ink-v {
+  opacity: 0;
+  animation: ink-boil 400ms steps(1, end) infinite;
+}
+.ink-v:nth-of-type(2) {
+  animation-delay: -133ms;
+}
+.ink-v:nth-of-type(3) {
+  animation-delay: -267ms;
+}
+@keyframes ink-boil {
+  0% {
+    opacity: 1;
+  }
+  33.333% {
+    opacity: 0;
+  }
+}
+
+.ink-mask {
+  transition-property: stroke-dashoffset;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ink-on > .ink-svg .ink-mask,
+a:hover [data-ink-draw="hover"] > .ink-svg .ink-mask,
+a:focus-visible [data-ink-draw="hover"] > .ink-svg .ink-mask,
+.group:hover [data-ink-draw="hover"] > .ink-svg .ink-mask {
+  stroke-dashoffset: 0;
+}
+a:not(:hover) [data-ink-draw="hover"] > .ink-svg .ink-mask {
+  transition-delay: 0ms !important;
+  transition-duration: 200ms !important;
+}
+.ink-instant > .ink-svg .ink-mask {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ink-v {
+    animation: none;
+  }
+  .ink-v:first-of-type {
+    opacity: 1;
+  }
+  .ink-mask {
+    transition: none !important;
+  }
+  [data-ink]:not([data-ink-draw="hover"]) > .ink-svg .ink-mask {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* without the script (or before it runs) boxes keep a plain border */
+html:not(.ink) [data-ink="box"] {
+  outline: 1px solid var(--color-rule);
+}
+
+/* an image on a paper mat, hand-framed, set down slightly crooked */
+.mat {
+  background: #fff;
+  padding: 8px;
+  rotate: var(--tilt, -0.5deg);
+  transition: rotate 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.mat:hover,
+a:hover > .mat {
+  rotate: 0deg;
+}
+
+/* ---------- long-form prose (work + writing) ---------- */
+
+.prose-bb h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+}
+.prose-bb h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.prose-bb p {
+  margin-bottom: 1rem;
+  line-height: 1.75;
+}
+.prose-bb ul,
+.prose-bb ol {
+  margin-bottom: 1rem;
+  padding-left: 1.25rem;
+}
+.prose-bb ul {
+  list-style: disc;
+}
+.prose-bb ol {
+  list-style: decimal;
+}
+.prose-bb li {
+  margin-bottom: 0.25rem;
+  line-height: 1.75;
+}
+.prose-bb li::marker {
+  color: var(--color-gilt);
+}
+.prose-bb a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+.prose-bb a:hover {
+  text-decoration-color: var(--color-accent);
+}
+.prose-bb code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+}
+.prose-bb blockquote {
+  border-left: 2px solid var(--color-gilt);
+  padding-left: 1.25rem;
+  margin-left: 0;
+  font-style: italic;
+  color: var(--color-muted);
+  margin-bottom: 1rem;
+}
+.prose-bb em {
+  font-style: italic;
+}
+.prose-bb strong {
+  font-weight: 600;
+}
+.prose-bb table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin: 1.5rem 0;
+}
+.prose-bb th {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-muted);
+  text-align: left;
+  border-bottom: 1.5px solid var(--color-ink);
+  padding: 0.5rem 0.75rem 0.5rem 0;
+}
+.prose-bb td {
+  border-bottom: 1px solid var(--color-rule);
+  padding: 0.6rem 0.75rem 0.6rem 0;
+  vertical-align: top;
+  line-height: 1.55;
+}
+.prose-bb img {
+  background: #fff;
+  padding: 8px;
+  border: 1px solid var(--color-rule);
 }
