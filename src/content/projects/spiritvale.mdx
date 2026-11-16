@@ -1,17 +1,31 @@
 ---
 title: SpiritVale
-tagline: UI I design and build inside the game itself. My first patch shipped a new login screen and a full loot filter to every player.
+tagline: Contract game UI and client engineer on a live MMORPG. In my first two weeks, 96 of my pull requests shipped to every player across five patches.
 year: 2026
 status: live
-stack: [Unity, "C#", uGUI, TextMeshPro]
+stack: [Unity, "C#", uGUI, TextMeshPro, FishNet]
 tags: [gaming, game-ui, unity]
 url: https://store.steampowered.com/app/3767850/SpiritVale/
 featured: true
 order: 2
 cover: /work/spiritvale/login.jpg
 gallery:
+  - src: /work/spiritvale/market-2.1.jpg
+    caption: Market 2.1. Search by name or by stats, your bag beside the listings, and sales waiting in the Inbox pane.
+  - src: /work/spiritvale/world-map-card.jpg
+    caption: The world map is a guide now. Click a monster for its stats and drops on that map.
+  - src: /work/spiritvale/leaderboard.jpg
+    caption: The leaderboard at the Nevaris quest board. Race to 150, with your own rank pinned at the bottom.
+  - src: /work/spiritvale/party-search.jpg
+    caption: Party Search lists parties from every region. Join one on another region's servers and the game offers to take you there.
+  - src: /work/spiritvale/npc-dialogue.jpg
+    caption: NPC dialogue on a paper card. The name ribbon takes the colour of that NPC's minimap icon.
+  - src: /work/spiritvale/theme-picker.jpg
+    caption: Settings → Theme. Five palettes, or a custom one where every colour is yours to set.
+  - src: /work/spiritvale/chat.jpg
+    caption: Equipment, Inventory, Status and Skills as floating windows, with the new chat in the corner.
   - src: /work/spiritvale/login-news.jpg
-    caption: Each news card opens into the full Steam post, wearing that post's own art.
+    caption: Each news card on the login screen opens into the full Steam post, wearing that post's own art.
   - src: /work/spiritvale/loot-filter.jpg
     caption: Settings → Loot Filter. The drop-rate threshold and category overrides sit beside a live preview of ground loot.
   - src: /work/spiritvale/loot-rules.jpg
@@ -26,16 +40,38 @@ gallery:
 
 SpiritVale is an indie MMORPG on Steam. I started on the outside, building
 [SpiritValers](/work/spiritvalers), its community wiki. That got me into the
-game's repository. Now I design UI for the client and build it myself.
+game's repository. Now I work on the game under contract. I design the UI, then
+build it myself in Unity and C#, along with the client and server code behind it.
 
 My first commit landed on November 3. Patch 0.35.3 went out the next day with
-five of my changes in its notes:
+five of my changes in its notes. By 0.36.2 on November 16, 96 of my pull
+requests had shipped across five patches.
 
-- a new login screen
-- a full loot filter on its own Settings page
-- a volume slider for loot sounds, so you can mute everything except drops
-- a toggle for auto-attacking after a skill
-- a support link in Settings
+## What shipped
+
+- **Trading.** A new Market with Browse, Sell and History tabs: list up to 30
+  items at once, search by stat rolls, check a price guide that compares
+  listings like yours, and look back over up to 90 days of sales. Storage was
+  rebuilt too, with saved filters that work in both screens.
+- **Finding your way.** A new minimap whose icons say what each NPC does, and a
+  world map that works as a guide. Search any map, monster, item or NPC, and
+  click a monster for its stats and drops.
+- **Playing together.** A chat window with emotes, item links that work across
+  servers, and per-tab region filters. Party Search across regions, a region
+  picker, leaderboards with weekly boards and Spire clears, and guild rename.
+- **Your character.** Floating Equipment, Status, Inventory and Skills windows.
+  Loadouts, a cosmetics store and wardrobe, a redesigned character select,
+  character rename, and a death recap that shows what killed you.
+- **Every screen.** NPC shops and crafting on one design system, with baskets,
+  carts and Craft ×N. Dialogue moved onto paper cards. A Settings window with
+  search, light and dark themes plus a theme picker, UI scale for small
+  screens, and four more languages brought up to the level of Chinese.
+- **Performance.** A cap on how many players get drawn in a crowd. Each map
+  also loads about 518 MB less texture memory.
+
+Where a feature needed the server, I built that part too. Guild rename takes
+the Stars and renames the guild in one transaction. The Market's sales history
+lives on the data server.
 
 ## The loot filter
 

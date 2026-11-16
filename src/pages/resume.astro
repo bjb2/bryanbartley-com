@@ -13,15 +13,47 @@ type Role = {
 
 const roles: Role[] = [
   {
+    title: 'Game UI & Client Engineer (Contract)',
+    company: 'SpiritVale',
+    location: 'Remote',
+    dates: 'Nov 2026 – Present',
+    blurb: 'An indie MMORPG on Steam.',
+    bullets: [
+      'Design game UI and build it in Unity/C#, client and server: 96 pull requests shipped to every player across five patches (0.35.3 – 0.36.2) in the first two weeks',
+      'Rebuilt the Market (bulk listing, stat search, price guide, sales history), Storage, chat, minimap, world map guide, settings, and NPC shops and crafting',
+      'Shipped loadouts, leaderboards, cross-region parties, character and guild rename, a theme picker, UI scaling for small screens, and four more languages',
+      'Client performance: a crowd budget for remote players and ~518 MB less texture memory on every map',
+    ],
+  },
+  {
     title: 'AI & Growth Consultant',
     company: 'Five Whys LLC',
     location: 'Remote',
     dates: 'Dec 2025 – Present',
-    blurb: 'Building bespoke solutions and growth functions at early-stage businesses.',
-    bullets: [
-      'Custom AI tooling and workflows',
-      '0 → 1 paid media setups for B2C SaaS',
-      'Built and run spiritvalers.com (11K daily active users): an offline game-data extraction pipeline, build planner, and DPS engine on a Cloudflare Workers/D1/R2 backend',
+    blurb: 'One consultant, many hats. Clients stay unnamed; the hats are listed below.',
+    sections: [
+      {
+        label: 'Growth',
+        bullets: [
+          'Took over paid acquisition for a consumer AI startup from an empty ad account: 8× monthly leads in four months at 60% lower cost per lead',
+          'Made leads 2.5× cheaper by changing one line of ad copy',
+          'Audited tracking at the source and specced the tag setup (Consent Mode v2, signup conversions)',
+        ],
+      },
+      {
+        label: 'AI',
+        bullets: ['AI bot development for an industrial engineering firm', 'Custom AI tooling and workflows'],
+      },
+      {
+        label: 'Data',
+        bullets: ['Lead database for a real-estate developer: every multi-property owner in Bexar County, matched across their LLCs and exported as outreach lists'],
+      },
+      {
+        label: 'My own products',
+        bullets: [
+          'Built and run spiritvalers.com (11K daily active users): an offline game-data extraction pipeline, build planner, and DPS engine on a Cloudflare Workers/D1/R2 backend',
+        ],
+      },
     ],
   },
   {
